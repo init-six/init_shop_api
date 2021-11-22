@@ -16,6 +16,8 @@ builder.Services.AddDbContext<ProductContext>(opt
     => opt.UseInMemoryDatabase("ProductList"));
 builder.Services.AddDbContext<UserContext>(opt 
     => opt.UseInMemoryDatabase("UserList"));
+builder.Services.AddDbContext<OrderContext>(opt 
+    => opt.UseInMemoryDatabase("OrderList"));
 
 var app = builder.Build();
 

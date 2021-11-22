@@ -1,4 +1,6 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace init_api.Models
 {
     public class User
@@ -8,6 +10,9 @@ namespace init_api.Models
         public string? Password { get; set; }
         public string? Email { get; set; }
         public long TelNumber { get; set; }
+
+        [InverseProperty("User")]
+        public List<Order> Orders { get; set; }
     }
 
 
