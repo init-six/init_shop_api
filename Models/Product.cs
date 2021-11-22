@@ -8,7 +8,7 @@ namespace init_api.Models
         public string? Description { get; set; }
         public long Price { get; set; }
         public int Stock { get; set; }
-        public string[]? Pictures { get; set; }
+        public string? PictureURL { get; set; }
 
         public Product()
         {
