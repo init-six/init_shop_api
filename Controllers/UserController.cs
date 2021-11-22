@@ -22,14 +22,16 @@ namespace init_api.Controllers
 
         // GET: api/User
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<User>>> GetUsers()
+        public async Task<ActionResult<IEnumerable<UserDTO>>> GetUsers()
         {
-            return await _context.Users.ToListAsync();
+            return await _context.Users
+                .Select(x => ToDTO(x))
+                .ToListAsync();
         }
 
         // GET: api/User/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<User>> GetUser(long id)
+        public async Task<ActionResult<UserDTO>> GetUser(long id)
         {
             var user = await _context.Users.FindAsync(id);
 
@@ -38,35 +40,36 @@ namespace init_api.Controllers
                 return NotFound();
             }
 
-            return user;
+            return ToDTO(user);
         }
 
         // PUT: api/User/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutUser(long id, User user)
+        public async Task<IActionResult> PutUser(long id, UserDTO userDTO)
         {
-            if (id != user.Id)
+            if (id != userDTO.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(user).State = EntityState.Modified;
+            var user = await _context.Users.FindAsync(id);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            user.UserName = userDTO.UserName;
+            user.Email = userDTO.Email;
+            user.TelNumber = userDTO.TelNumber;
 
             try
             {
                 await _context.SaveChangesAsync();
             }
-            catch (DbUpdateConcurrencyException)
+            catch (DbUpdateConcurrencyException) when (!UserExists(id))
             {
-                if (!UserExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                return NotFound();
             }
 
             return NoContent();
@@ -75,12 +78,22 @@ namespace init_api.Controllers
         // POST: api/User
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<User>> PostUser(User user)
+        public async Task<ActionResult<User>> PostUser(UserDTO userDTO)
         {
+            var user = new User()
+            {
+                UserName = userDTO.UserName,
+                Email = userDTO.Email,
+                TelNumber = userDTO.TelNumber
+            };
+
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetUser", new { id = user.Id }, user);
+            return CreatedAtAction(
+                nameof(GetUser),
+                new { id = user.Id },
+                ToDTO(user));
         }
 
         // DELETE: api/User/5
@@ -103,5 +116,14 @@ namespace init_api.Controllers
         {
             return _context.Users.Any(e => e.Id == id);
         }
+        
+        private static UserDTO ToDTO(User user) =>
+            new UserDTO
+            {
+                Id = user.Id,
+                UserName = user.UserName,
+                Email = user.Email,
+                TelNumber = user.TelNumber
+            };
     }
 }
