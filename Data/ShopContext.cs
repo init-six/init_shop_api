@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
-using System.Diagnostics.CodeAnalysis;
+using init_api.Models;
 
-namespace init_api.Models
+namespace init_api.Data
 {
     public class ShopContext : DbContext
     {
@@ -13,5 +13,12 @@ namespace init_api.Models
         public DbSet<User> Users { get; set; } = null!;
         public DbSet<Product> Products { get; set; } = null!;
         public DbSet<Order> Orders { get; set; } = null!;
+        
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<User>().ToTable("User");
+            modelBuilder.Entity<Product>().ToTable("Product");
+            modelBuilder.Entity<Order>().ToTable("Order");
+        }
     }
 }

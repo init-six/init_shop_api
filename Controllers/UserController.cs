@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using init_api.Models;
+using init_api.Data;
+
 
 namespace init_api.Controllers
 {
