@@ -13,9 +13,9 @@ namespace init_api.Controllers
     [ApiController]
     public class OrderController : ControllerBase
     {
-        private readonly OrderContext _context;
+        private readonly ShopContext _context;
 
-        public OrderController(OrderContext context)
+        public OrderController(ShopContext context)
         {
             _context = context;
         }

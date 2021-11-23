@@ -3,13 +3,15 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace init_api.Models
 {
-    public class OrderContext : DbContext
+    public class ShopContext : DbContext
     {
-        public OrderContext(DbContextOptions<OrderContext> options)
+        public ShopContext(DbContextOptions<ShopContext> options)
             : base(options)
         {
         }
 
+        public DbSet<User> Users { get; set; } = null!;
+        public DbSet<Product> Products { get; set; } = null!;
         public DbSet<Order> Orders { get; set; } = null!;
     }
 }

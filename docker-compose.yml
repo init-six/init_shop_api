@@ -1,0 +1,32 @@
+version: '3.9'
+services:
+  app:
+    build: .
+    restart: always
+    ports:
+      - "9096:9096"
+    depends_on:
+      - db
+  db:
+    image: postgres
+    restart: always
+    ports:
+      - "9097:5432"
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=init-shop
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - "9098:8080"
+    depends_on:
+      - db
+
+volumes:
+  db-data:
+    driver: local
+  

@@ -12,12 +12,9 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddDbContext<ProductContext>(opt 
-    => opt.UseInMemoryDatabase("ProductList"));
-builder.Services.AddDbContext<UserContext>(opt 
-    => opt.UseInMemoryDatabase("UserList"));
-builder.Services.AddDbContext<OrderContext>(opt 
-    => opt.UseInMemoryDatabase("OrderList"));
+builder.Services.AddDbContext<ShopContext>(opt 
+    => opt.UseInMemoryDatabase("init-shop"));
+
 
 var app = builder.Build();
 
