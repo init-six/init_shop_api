@@ -2,6 +2,7 @@
 .idea
 /bin
 /obj
+/.vscode
 #release
 /bin/Release
 /obj/Release
