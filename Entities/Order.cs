@@ -1,5 +1,5 @@
 ﻿using System;
-namespace init_api.Models
+namespace init_api.Entities
 {
     public class Order
     {

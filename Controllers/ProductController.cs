@@ -1,11 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using init_api.Models;
+using init_api.Entities;
 using init_api.Data;
 
 
@@ -46,7 +41,7 @@ namespace init_api.Controllers
         // PUT: api/Product/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutProduct(long id, Product product)
+        public async Task<IActionResult> PutProduct(Guid id, Product product)
         {
             if (id != product.Id)
             {
@@ -103,7 +98,7 @@ namespace init_api.Controllers
             return NoContent();
         }
 
-        private bool ProductExists(long id)
+        private bool ProductExists(Guid id)
         {
             return _context.Products.Any(e => e.Id == id);
         }

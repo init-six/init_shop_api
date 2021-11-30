@@ -10217,19 +10217,19 @@
     ]
   },
   "packageFolders": {
-    "/Users/ennoh/.nuget/packages/": {}
+    "/Users/evan/.nuget/packages/": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/ennoh/Desktop/init_shop_api/init-api.csproj",
+      "projectUniqueName": "/Users/evan/Desktop/init/init_shop_api/init-api.csproj",
       "projectName": "init-api",
-      "projectPath": "/Users/ennoh/Desktop/init_shop_api/init-api.csproj",
-      "packagesPath": "/Users/ennoh/.nuget/packages/",
-      "outputPath": "/Users/ennoh/Desktop/init_shop_api/obj/",
+      "projectPath": "/Users/evan/Desktop/init/init_shop_api/init-api.csproj",
+      "packagesPath": "/Users/evan/.nuget/packages/",
+      "outputPath": "/Users/evan/Desktop/init/init_shop_api/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "/Users/ennoh/.nuget/NuGet/NuGet.Config"
+        "/Users/evan/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net6.0"

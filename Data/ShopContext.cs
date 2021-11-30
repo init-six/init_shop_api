@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using init_api.Models;
+using init_api.Entities;
 
 namespace init_api.Data
 {
@@ -13,12 +13,21 @@ namespace init_api.Data
         public DbSet<User> Users { get; set; } = null!;
         public DbSet<Product> Products { get; set; } = null!;
         public DbSet<Order> Orders { get; set; } = null!;
-        
+        public DbSet<Category> Categories {get;set;}=null!;
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<User>().ToTable("User");
             modelBuilder.Entity<Product>().ToTable("Product");
             modelBuilder.Entity<Order>().ToTable("Order");
+            modelBuilder.Entity<Category>().ToTable("Category");
+
+            modelBuilder.Entity<Category>().Property(x=>x.Name).IsRequired().HasMaxLength(100);
+            modelBuilder.Entity<Product>().Property(x=>x.Name).IsRequired().HasMaxLength(100);
+            modelBuilder.Entity<Product>()
+                .HasOne(x=>x.Category)
+                .WithMany(x=>x.Products)
+                .HasForeignKey(x=>x.CategoryId)
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }
