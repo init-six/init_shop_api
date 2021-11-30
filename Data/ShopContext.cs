@@ -26,7 +26,7 @@ namespace init_api.Data
             modelBuilder.Entity<Product>()
                 .HasOne(x=>x.Category)
                 .WithMany(x=>x.Products)
-                .HasForeignKey(x=>x.CategoryId)
+                .HasForeignKey(x=>x.FkCategoryId)
                 .OnDelete(DeleteBehavior.Restrict);
         }
     }
