@@ -1,6 +1,6 @@
-﻿namespace init_api.Entities
+namespace init_api.Models
 {
-    public class Product
+    public class ProductDto
     {
         public Guid Id { get; set; }
         public Guid CategoryId {get;set;}
@@ -11,13 +11,6 @@
         public string? PictureURL { get; set; }
         public string? VideoURL { get; set; }
 
-        public string? Tags {get;set;}
-        public Category Category{get;set;}
-
-        public Product()
-        {
-            this.Name = "undefined";
-        }
+        public string[]? Tags {get;set;}
     }
 }
-

@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using init_api.Entities;
+using init_api.Models;
 using init_api.Data;
 
 
