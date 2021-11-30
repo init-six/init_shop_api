@@ -12,7 +12,7 @@ namespace init_api.Services
         void DeleteCategory(Category category);
         Task<bool> CategoryExistsAsync(Guid categoryId);
         Task<IEnumerable<Product>> GetProductsAsync(Guid categoryId);
-        Task<Product> GetProductAsync(Guid productId);
+        Task<Product> GetProductAsync(Guid categoryId,Guid productId);
         void AddProduct(Guid categoryId, Product product);
         void DeleteProduct(Product product);
         void UpdateProduct(Product product);

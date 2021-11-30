@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using init_api.Data;
 using init_api.Entities;
@@ -64,11 +60,11 @@ namespace init_api.Services
                 .Where(x=>x.CategoryId==categoryId)
                 .OrderBy(x=>x.Name).ToListAsync();
         }
-        public async Task<Product> GetProductAsync(Guid productId){
-            if (productId==Guid.Empty){
-                throw new ArgumentNullException(nameof(productId));
+        public async Task<Product> GetProductAsync(Guid categoryId,Guid productId){
+            if (productId==Guid.Empty||categoryId==Guid.Empty){
+                throw new ArgumentNullException(nameof(productId),nameof(categoryId));
             }
-            return await _context.Products.Where(x=>x.Id==productId).FirstOrDefaultAsync();
+            return await _context.Products.Where(x=>x.Id==productId&&x.CategoryId==categoryId).FirstOrDefaultAsync();
         }
 
         public void AddProduct(Guid categoryId,Product product){

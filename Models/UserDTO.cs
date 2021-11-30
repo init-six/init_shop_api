@@ -1,4 +1,4 @@
-namespace init_api.Entities;
+namespace init_api.Models;
 
 public class UserDTO
 {
