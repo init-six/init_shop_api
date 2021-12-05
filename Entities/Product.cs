@@ -3,7 +3,7 @@
     public class Product
     {
         public long Id {get;set;}
-        public Guid PId { get; set; }
+        public Guid UUID { get; set; }
         public Guid CategoryId {get;set;}
         public long FkCategoryId{get;set;}
         public string Name { get; set; }

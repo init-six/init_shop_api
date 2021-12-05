@@ -15,23 +15,23 @@ namespace init_api.Services
             if (categoryId==Guid.Empty){
                 throw new ArgumentNullException(nameof(categoryId));
             }
-            return await _context.Categories.FirstOrDefaultAsync(x=>x.PId==categoryId);
+            return await _context.Categories.FirstOrDefaultAsync(x=>x.UUID==categoryId);
         }
         public async Task<IEnumerable<Category>> GetCategoriesAsync(IEnumerable<Guid> categoryIds){
             if (categoryIds==null){
                 throw new ArgumentNullException(nameof(categoryIds));
             }
             return await _context.Categories
-                .Where(x=>categoryIds.Contains(x.PId))
+                .Where(x=>categoryIds.Contains(x.UUID))
                 .OrderBy(x=>x.Name).ToListAsync();
         }
         public void AddCategory(Category category){
             if (category==null){
                 throw new ArgumentNullException(nameof(category));
             }
-            category.PId=Guid.NewGuid();
+            category.UUID=Guid.NewGuid();
             foreach(var product in category.Products){
-                product.PId=Guid.NewGuid();
+                product.UUID=Guid.NewGuid();
             }
             _context.Categories.Add(category);
         }
@@ -48,7 +48,7 @@ namespace init_api.Services
             if (categoryId==Guid.Empty){
                 throw new ArgumentNullException(nameof(categoryId));
             }
-            return await _context.Categories.AnyAsync(x=>x.PId==categoryId);
+            return await _context.Categories.AnyAsync(x=>x.UUID==categoryId);
         }
 
         public async Task<IEnumerable<Product>> GetProductsAsync(Guid categoryId){
@@ -64,7 +64,7 @@ namespace init_api.Services
             if (productId==Guid.Empty||categoryId==Guid.Empty){
                 throw new ArgumentNullException(nameof(productId),nameof(categoryId));
             }
-            return await _context.Products.Where(x=>x.PId==productId&&x.CategoryId==categoryId).FirstOrDefaultAsync();
+            return await _context.Products.Where(x=>x.UUID==productId&&x.CategoryId==categoryId).FirstOrDefaultAsync();
         }
 
         public void AddProduct(Guid categoryId,Product product){
