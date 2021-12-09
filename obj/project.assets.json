@@ -10283,19 +10283,19 @@
     ]
   },
   "packageFolders": {
-    "/Users/evan/.nuget/packages/": {}
+    "/home/carryevan/.nuget/packages/": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/evan/Desktop/init/init_shop_api/init-api.csproj",
+      "projectUniqueName": "/home/carryevan/Desktop/init/init_shop_api/init-api.csproj",
       "projectName": "init-api",
-      "projectPath": "/Users/evan/Desktop/init/init_shop_api/init-api.csproj",
-      "packagesPath": "/Users/evan/.nuget/packages/",
-      "outputPath": "/Users/evan/Desktop/init/init_shop_api/obj/",
+      "projectPath": "/home/carryevan/Desktop/init/init_shop_api/init-api.csproj",
+      "packagesPath": "/home/carryevan/.nuget/packages/",
+      "outputPath": "/home/carryevan/Desktop/init/init_shop_api/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "/Users/evan/.nuget/NuGet/NuGet.Config"
+        "/home/carryevan/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net6.0"
@@ -10372,7 +10372,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/6.0.100/RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/6.0.100/RuntimeIdentifierGraph.json"
       }
     }
   }

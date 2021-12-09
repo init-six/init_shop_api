@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using init_api.Services;
 using AutoMapper;
 using init_api.Models;
+using init_api.Entities;
 
 namespace init_api.Controllers
 {
@@ -24,13 +25,22 @@ namespace init_api.Controllers
 
             return Ok(categoriesDto);
         }
-        [HttpGet("{categoryId}")]
+        [HttpGet("{categoryId}",Name=nameof(GetCategory))]
         public async Task<ActionResult<CategoryDto>> GetCategory(Guid categoryId){
             var category=await _categoryRepository.GetCategoryAsync(categoryId);
             if (category==null){
                 return NotFound();
             }
             return Ok(_mapper.Map<CategoryDto>(category));
+        }
+
+        [HttpPost]
+        public async Task<ActionResult<CategoryDto>> CreateCategory(CategoryAddDto category){
+            var entity = _mapper.Map<Category>(category);
+            _categoryRepository.AddCategory(entity);
+            await _categoryRepository.SaveAsync();
+            var returnDto=_mapper.Map<CategoryDto>(entity);
+            return CreatedAtRoute(nameof(GetCategory),new {categoryId=returnDto.UUID},returnDto);
         }
 
     }

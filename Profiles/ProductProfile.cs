@@ -10,6 +10,8 @@ namespace init_api.Profiles
             CreateMap<Product,ProductDto>()
                 .ForMember(destinationMember=>destinationMember.Tags,
                            opt=>opt.MapFrom(sourceMember=>sourceMember.Tags));
+            CreateMap<ProductAddDto,Product>();
+            CreateMap<ProductDto,Product>();
         }
     }
 }

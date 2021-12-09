@@ -30,8 +30,10 @@ namespace init_api.Services
                 throw new ArgumentNullException(nameof(category));
             }
             category.UUID=Guid.NewGuid();
-            foreach(var product in category.Products){
-                product.UUID=Guid.NewGuid();
+            if (category.Products!=null){
+                foreach(var product in category.Products){
+                    product.UUID=Guid.NewGuid();
+                }
             }
             _context.Categories.Add(category);
         }
@@ -66,22 +68,23 @@ namespace init_api.Services
             }
             return await _context.Products.Where(x=>x.UUID==productId&&x.CategoryId==categoryId).FirstOrDefaultAsync();
         }
-
         public void AddProduct(Guid categoryId,Product product){
             if (categoryId==Guid.Empty){
                 throw new ArgumentNullException(nameof(categoryId));
             }
+            var category=_context.Categories.FirstOrDefault(x=>x.UUID==categoryId);
             if (product==null){
                 throw new ArgumentNullException(nameof(product));
             }
             product.CategoryId=categoryId;
+            product.FkCategoryId=category.Id;
+            product.UUID=Guid.NewGuid();
             _context.Products.Add(product);
         }
         public void UpdateProduct(Product product){
             _context.Entry(product).State=EntityState.Modified;
         }
-        public void DeleteProduct(Product product){
-            _context.Products.Remove(product);
+        public void DeleteProduct(Product product){ _context.Products.Remove(product);
         }
         public async Task<bool> SaveAsync(){
             return await _context.SaveChangesAsync()>=0;

@@ -10,6 +10,7 @@ namespace init_api.Profiles
             CreateMap<Category,CategoryDto>()
                 .ForMember(destinationMember=>destinationMember.CategoryName,
                            opt=>opt.MapFrom(sourceMember=>sourceMember.Name));
+            CreateMap<CategoryAddDto,Category>();
         }
     }
 }

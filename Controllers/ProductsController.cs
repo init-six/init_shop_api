@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using AutoMapper;
 using init_api.Services;
 using init_api.Models;
+using init_api.Entities;
 
 
 namespace init_api.Controllers
@@ -25,7 +26,7 @@ namespace init_api.Controllers
             var productDtos=_mapper.Map<IEnumerable<ProductDto>>(products);
             return Ok(productDtos);
         }
-        [HttpGet("{productId}")]
+        [HttpGet("{productId}",Name=nameof(GetProductForCategory))]
         public async Task<ActionResult<ProductDto>> GetProductForCategory(Guid categoryId,Guid productId){
             if(! await _categoryRepository.CategoryExistsAsync(categoryId)){
                 return NotFound();
@@ -36,6 +37,22 @@ namespace init_api.Controllers
             }
             var productDto=_mapper.Map<ProductDto>(product);
             return Ok(productDto);
+        }
+        [HttpPost]
+        public async Task<ActionResult<ProductDto>> CreateProductForCategory(Guid categoryId,ProductAddDto product){
+            if (!await _categoryRepository.CategoryExistsAsync(categoryId)){
+                return NotFound();
+            }
+            var entity=_mapper.Map<Product>(product);
+            _categoryRepository.AddProduct(categoryId,entity);
+            await _categoryRepository.SaveAsync();
+            var returnDto=_mapper.Map<ProductDto>(entity);
+            return CreatedAtRoute(nameof(GetProductForCategory),new
+                    {
+                        categoryId,
+                        productId=returnDto.UUID
+                    },
+                    returnDto);
         }
     }
 }
