@@ -33,6 +33,7 @@ namespace init_api.Services
             if (category.Products!=null){
                 foreach(var product in category.Products){
                     product.UUID=Guid.NewGuid();
+                    product.CategoryId=category.UUID;
                 }
             }
             _context.Categories.Add(category);
