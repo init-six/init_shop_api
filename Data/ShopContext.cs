@@ -22,7 +22,7 @@ namespace init_api.Data
             modelBuilder.Entity<Category>().ToTable("Category");
 
             modelBuilder.Entity<Category>().Property(x=>x.Name).IsRequired().HasMaxLength(100);
-            modelBuilder.Entity<Product>().Property(x=>x.Name).IsRequired().HasMaxLength(100);
+            modelBuilder.Entity<Product>().Property(x=>x.Name).IsRequired().HasMaxLength(200);
             modelBuilder.Entity<Product>()
                 .HasOne(x=>x.Category)
                 .WithMany(x=>x.Products)

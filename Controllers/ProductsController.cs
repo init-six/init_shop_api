@@ -54,5 +54,24 @@ namespace init_api.Controllers
                     },
                     returnDto);
         }
+
+        [HttpPut("{productId}")]
+        public async Task<IActionResult> UpdateProductForCategory(Guid categoryId,
+                Guid productId,
+                ProductUpdateDto productUpdate)
+        {
+            if(! await _categoryRepository.CategoryExistsAsync(categoryId)){
+                return NotFound();
+            }
+            var product =await _categoryRepository.GetProductAsync(categoryId,productId);
+            if (product==null){
+                return NotFound();
+            }
+            _mapper.Map(productUpdate,product);
+            _categoryRepository.UpdateProduct(product);
+            await _categoryRepository.SaveAsync();
+            return NoContent();
+        }
+
     }
 }

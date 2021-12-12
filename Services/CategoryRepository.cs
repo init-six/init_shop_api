@@ -39,7 +39,7 @@ namespace init_api.Services
             _context.Categories.Add(category);
         }
         public void UpdateCategory(Category category){
-            _context.Entry(category).State=EntityState.Modified;
+            //_context.Entry(category).State=EntityState.Modified;
         }
         public void DeleteCategory(Category category){
             if (category==null){
@@ -83,7 +83,7 @@ namespace init_api.Services
             _context.Products.Add(product);
         }
         public void UpdateProduct(Product product){
-            _context.Entry(product).State=EntityState.Modified;
+            //_context.Entry(product).State=EntityState.Modified;
         }
         public void DeleteProduct(Product product){ _context.Products.Remove(product);
         }

@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 namespace init_api.Models
 {
-    public class ProductAddDto
+    public class ProductUpdateDto
     {
         [Required]
         [MaxLength(200)]
@@ -13,8 +13,5 @@ namespace init_api.Models
         public string? PictureURL { get; set; }
         public string? VideoURL { get; set; }
         public string? Tags {get;set;}
-        public ProductAddDto(){
-            this.Name="undefined";
-        }
     }
 }

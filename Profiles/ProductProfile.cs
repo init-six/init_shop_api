@@ -12,6 +12,7 @@ namespace init_api.Profiles
                            opt=>opt.MapFrom(sourceMember=>sourceMember.Tags));
             CreateMap<ProductAddDto,Product>();
             CreateMap<ProductDto,Product>();
+            CreateMap<ProductUpdateDto,Product>();
         }
     }
 }

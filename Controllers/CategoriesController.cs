@@ -42,6 +42,16 @@ namespace init_api.Controllers
             var returnDto=_mapper.Map<CategoryDto>(entity);
             return CreatedAtRoute(nameof(GetCategory),new {categoryId=returnDto.UUID},returnDto);
         }
-
+        [HttpPut("{categoryId}")]
+        public async Task<IActionResult> UpdateCategory(Guid categoryId,CategoryAddDto categoryUpdate){
+            var category =await _categoryRepository.GetCategoryAsync(categoryId);
+            if (category==null){
+                return NotFound();
+            }
+            _mapper.Map(categoryUpdate,category);
+            _categoryRepository.UpdateCategory(category);
+            await _categoryRepository.SaveAsync();
+            return NoContent();
+        }
     }
 }
