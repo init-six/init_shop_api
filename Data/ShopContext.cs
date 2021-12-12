@@ -27,7 +27,7 @@ namespace init_api.Data
                 .HasOne(x=>x.Category)
                 .WithMany(x=>x.Products)
                 .HasForeignKey(x=>x.FkCategoryId)
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

@@ -53,5 +53,15 @@ namespace init_api.Controllers
             await _categoryRepository.SaveAsync();
             return NoContent();
         }
+        [HttpDelete("{categoryId}")]
+        public async Task<IActionResult> DeleteCategory(Guid categoryId){
+            var category= await _categoryRepository.GetCategoryAsync(categoryId);
+            if (category==null){
+                return NotFound();
+            }
+            _categoryRepository.DeleteCategory(category);
+            await _categoryRepository.SaveAsync();
+            return NoContent();
+        }
     }
 }

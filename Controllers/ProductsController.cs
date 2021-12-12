@@ -67,11 +67,23 @@ namespace init_api.Controllers
             if (product==null){
                 return NotFound();
             }
-            _mapper.Map(productUpdate,product);
-            _categoryRepository.UpdateProduct(product);
+            _mapper.Map(productUpdate,product); _categoryRepository.UpdateProduct(product);
             await _categoryRepository.SaveAsync();
             return NoContent();
         }
+        [HttpDelete("{productId}")]
+        public async Task<IActionResult> DeleteProductForCategory(Guid categoryId,Guid productId){
+            if(! await _categoryRepository.CategoryExistsAsync(categoryId)){
+                return NotFound();
+            }
+            var product =await _categoryRepository.GetProductAsync(categoryId,productId);
+            if (product==null){
+                return NotFound();
+            }
 
+            _categoryRepository.DeleteProduct(product);
+            await _categoryRepository.SaveAsync();
+            return NoContent();
+        }
     }
 }
