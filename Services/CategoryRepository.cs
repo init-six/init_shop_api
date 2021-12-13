@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using init_api.Data;
 using init_api.Entities;
+using init_api.DtoParameters;
 namespace init_api.Services
 {
     public class CategoryRepository:ICategoryRepository{
@@ -54,21 +55,38 @@ namespace init_api.Services
             return await _context.Categories.AnyAsync(x=>x.UUID==categoryId);
         }
 
-        public async Task<IEnumerable<Product>> GetProductsAsync(Guid categoryId){
+        public async Task<IEnumerable<Product>> GetProductsAsync(Guid categoryId,ProductDtoParameters parameters){
             if (categoryId==Guid.Empty){
                 throw new ArgumentNullException(nameof(categoryId));
             }
+            if (parameters==null){
+                throw new ArgumentNullException(nameof(parameters));
+            }
+            var queryExpressoin=_context.Products as IQueryable<Product>;
 
-            return await _context.Products
+            if (!string.IsNullOrWhiteSpace(parameters.ProductName)){
+                parameters.ProductName=parameters.ProductName.Trim();
+                queryExpressoin=queryExpressoin.Where(x=>x.Name==parameters.ProductName);
+            }
+
+            queryExpressoin=queryExpressoin
                 .Where(x=>x.CategoryId==categoryId)
-                .OrderBy(x=>x.Name).ToListAsync();
+                .OrderBy(x=>x.Name);
+
+            queryExpressoin=queryExpressoin
+                .Skip(parameters.PageSize*(parameters.PageNumber-1))
+                .Take(parameters.PageSize);
+
+            return await queryExpressoin.ToListAsync();
         }
+
         public async Task<Product> GetProductAsync(Guid categoryId,Guid productId){
             if (productId==Guid.Empty||categoryId==Guid.Empty){
                 throw new ArgumentNullException(nameof(productId),nameof(categoryId));
             }
             return await _context.Products.Where(x=>x.UUID==productId&&x.CategoryId==categoryId).FirstOrDefaultAsync();
         }
+
         public void AddProduct(Guid categoryId,Product product){
             if (categoryId==Guid.Empty){
                 throw new ArgumentNullException(nameof(categoryId));

@@ -3,6 +3,7 @@ using AutoMapper;
 using init_api.Services;
 using init_api.Models;
 using init_api.Entities;
+using init_api.DtoParameters;
 
 
 namespace init_api.Controllers
@@ -18,11 +19,12 @@ namespace init_api.Controllers
             _categoryRepository=categoryRepository??throw new ArgumentNullException(nameof(categoryRepository));
         }
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<ProductDto>>> GetProductsForCategory(Guid categoryId){
+        [HttpHead]
+        public async Task<ActionResult<IEnumerable<ProductDto>>> GetProductsForCategory(Guid categoryId,[FromQuery]ProductDtoParameters parameters){
             if (! await _categoryRepository.CategoryExistsAsync(categoryId)){
                 return NotFound();
             }
-            var products=await _categoryRepository.GetProductsAsync(categoryId);
+            var products=await _categoryRepository.GetProductsAsync(categoryId,parameters);
             var productDtos=_mapper.Map<IEnumerable<ProductDto>>(products);
             return Ok(productDtos);
         }
