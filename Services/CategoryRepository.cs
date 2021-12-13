@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using init_api.Data;
 using init_api.Entities;
 using init_api.DtoParameters;
+using init_api.Helpers;
 namespace init_api.Services
 {
     public class CategoryRepository:ICategoryRepository{
@@ -55,7 +56,7 @@ namespace init_api.Services
             return await _context.Categories.AnyAsync(x=>x.UUID==categoryId);
         }
 
-        public async Task<IEnumerable<Product>> GetProductsAsync(Guid categoryId,ProductDtoParameters parameters){
+        public async Task<PagedList<Product>> GetProductsAsync(Guid categoryId,ProductDtoParameters parameters){
             if (categoryId==Guid.Empty){
                 throw new ArgumentNullException(nameof(categoryId));
             }
@@ -73,11 +74,7 @@ namespace init_api.Services
                 .Where(x=>x.CategoryId==categoryId)
                 .OrderBy(x=>x.Name);
 
-            queryExpressoin=queryExpressoin
-                .Skip(parameters.PageSize*(parameters.PageNumber-1))
-                .Take(parameters.PageSize);
-
-            return await queryExpressoin.ToListAsync();
+            return await PagedList<Product>.CreateAsync(queryExpressoin,parameters.PageNumber,parameters.PageSize);
         }
 
         public async Task<Product> GetProductAsync(Guid categoryId,Guid productId){

@@ -1,5 +1,6 @@
 using init_api.Entities;
 using init_api.DtoParameters;
+using init_api.Helpers;
 
 namespace init_api.Services
 {
@@ -12,7 +13,7 @@ namespace init_api.Services
         void UpdateCategory(Category category);
         void DeleteCategory(Category category);
         Task<bool> CategoryExistsAsync(Guid categoryId);
-        Task<IEnumerable<Product>> GetProductsAsync(Guid categoryId,ProductDtoParameters parameters);
+        Task<PagedList<Product>> GetProductsAsync(Guid categoryId,ProductDtoParameters parameters);
         Task<Product> GetProductAsync(Guid categoryId,Guid productId);
         void AddProduct(Guid categoryId, Product product);
         void DeleteProduct(Product product);
