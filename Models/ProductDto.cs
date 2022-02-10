@@ -10,7 +10,6 @@ namespace init_api.Models
         public int Stock { get; set; }
         public string? PictureURL { get; set; }
         public string? VideoURL { get; set; }
-
         public string[]? Tags {get;set;}
     }
 }

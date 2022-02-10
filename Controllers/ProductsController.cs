@@ -91,7 +91,8 @@ namespace init_api.Controllers
             if (product==null){
                 return NotFound();
             }
-            _mapper.Map(productUpdate,product); _categoryRepository.UpdateProduct(product);
+            _mapper.Map(productUpdate,product); 
+            _categoryRepository.UpdateProduct(product);
             await _categoryRepository.SaveAsync();
             return NoContent();
         }

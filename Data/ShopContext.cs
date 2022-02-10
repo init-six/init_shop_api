@@ -14,12 +14,14 @@ namespace init_api.Data
         public DbSet<Product> Products { get; set; } = null!;
         public DbSet<Order> Orders { get; set; } = null!;
         public DbSet<Category> Categories {get;set;}=null!;
+        public DbSet<Spu> Spu {get;set;}=null!;
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<User>().ToTable("User");
             modelBuilder.Entity<Product>().ToTable("Product");
             modelBuilder.Entity<Order>().ToTable("Order");
             modelBuilder.Entity<Category>().ToTable("Category");
+            modelBuilder.Entity<Spu>().ToTable("Spu");
 
             modelBuilder.Entity<Category>().Property(x=>x.Name).IsRequired().HasMaxLength(100);
             modelBuilder.Entity<Product>().Property(x=>x.Name).IsRequired().HasMaxLength(200);
