@@ -1,5 +1,3 @@
-using System;
-
 namespace init_api.Entities
 {
     public class Category

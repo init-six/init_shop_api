@@ -1,0 +1,23 @@
+using System.ComponentModel.DataAnnotations;
+namespace init_api.Models
+{
+    public class SpuAddDto{
+        [Required]
+        [MaxLength(200)]
+        public string Name{ get; set; }
+        [Required]
+        [Range(0,1)]
+        public int Saleable { get; set; }
+        [Range(0,1)]
+        public int Valid { get; set; }
+        public DateTime CreateTime {get;set;}
+        public DateTime LastUpdateTime {get;set;}
+        public SpuAddDto(){
+            this.Name="undefined";
+            this.Saleable=1;
+            this.Valid=1;
+            this.CreateTime=DateTime.UtcNow;
+            this.LastUpdateTime=DateTime.UtcNow;
+        }
+    }
+}
