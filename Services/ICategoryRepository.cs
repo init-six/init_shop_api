@@ -13,8 +13,8 @@ namespace init_api.Services
         void UpdateCategory(Category category);
         void DeleteCategory(Category category);
         Task<bool> CategoryExistsAsync(Guid categoryId);
-        Task<PagedList<Product>> GetProductsAsync(Guid categoryId,ProductDtoParameters parameters);
-        Task<Product> GetProductAsync(Guid categoryId,Guid productId);
+        Task<PagedList<Product>> GetProductsAsync(Guid categoryId, ProductDtoParameters parameters);
+        Task<Product> GetProductAsync(Guid categoryId, Guid productId);
         void AddProduct(Guid categoryId, Product product);
         void DeleteProduct(Product product);
         void UpdateProduct(Product product);

@@ -21,7 +21,7 @@ public class DbInitializer
         context.Users.AddRange(users);
         context.SaveChanges();
 
-        var categories =new Category[]
+        var categories = new Category[]
         {
             new Category(){UUID=Guid.Parse("3953f186-91a8-414d-9ca5-b155277db662"),Name="Living Room Decoration"},
             new Category(){UUID=Guid.Parse("5bc184a0-8e2e-4699-b36a-113c9556fe6a"),Name="Dining Room Decoration"},
@@ -37,7 +37,7 @@ public class DbInitializer
 
         var products = new Product[]
         {
-            new Product(){UUID=Guid.Parse("e7405060-1da1-4499-9861-db3f1504ff1e"),FkCategoryId=1,CategoryId=Guid.Parse("3953f186-91a8-414d-9ca5-b155277db662"),Name="living room dec 1",Description="test",Price=10.05m, Stock = 1, PictureURL = "test"}, 
+            new Product(){UUID=Guid.Parse("e7405060-1da1-4499-9861-db3f1504ff1e"),FkCategoryId=1,CategoryId=Guid.Parse("3953f186-91a8-414d-9ca5-b155277db662"),Name="living room dec 1",Description="test",Price=10.05m, Stock = 1, PictureURL = "test"},
             new Product(){UUID=Guid.Parse("318a1b5e-47b1-42c6-9619-625d9a57cf1c"),FkCategoryId=1,CategoryId=Guid.Parse("3953f186-91a8-414d-9ca5-b155277db662"),Name="living room dec 2",Description="test",Price=10.05m, Stock = 1, PictureURL = "test"},
             new Product(){UUID=Guid.Parse("f57f3208-4e84-485a-aa53-76764e1f1e1c"),FkCategoryId=2,CategoryId=Guid.Parse("5bc184a0-8e2e-4699-b36a-113c9556fe6a"),Name="Dining Dec 1",Description="test",Price=10.05m, Stock = 1, PictureURL = "test"},
             new Product(){UUID=Guid.Parse("ffdae6cc-a77b-467f-aece-82c4532b7899"),FkCategoryId=2,CategoryId=Guid.Parse("5bc184a0-8e2e-4699-b36a-113c9556fe6a"),Name="Dining Dec 2",Description="test",Price=10.05m, Stock = 1, PictureURL = "test"},
@@ -64,5 +64,5 @@ public class DbInitializer
         context.Products.AddRange(products);
         context.SaveChanges();
     }
-    
+
 }
