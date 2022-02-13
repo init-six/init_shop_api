@@ -9,3 +9,9 @@ push:
 
 clean:
 	dotnet clean
+
+test:
+	dotnet test
+
+format:
+	dotnet format

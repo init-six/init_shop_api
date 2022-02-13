@@ -13,9 +13,9 @@ namespace init_api.Data
         public DbSet<User> Users { get; set; } = null!;
         public DbSet<Product> Products { get; set; } = null!;
         public DbSet<Order> Orders { get; set; } = null!;
-        public DbSet<Category> Categories {get;set;}=null!;
-        public DbSet<Spu> Spu {get;set;}=null!;
-        public DbSet<Sku> Sku {get;set;}=null!;
+        public DbSet<Category> Categories { get; set; } = null!;
+        public DbSet<Spu> Spu { get; set; } = null!;
+        public DbSet<Sku> Sku { get; set; } = null!;
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<User>().ToTable("User");
@@ -25,17 +25,17 @@ namespace init_api.Data
             modelBuilder.Entity<Spu>().ToTable("Spu");
             modelBuilder.Entity<Sku>().ToTable("Sku");
 
-            modelBuilder.Entity<Category>().Property(x=>x.Name).IsRequired().HasMaxLength(100);
-            modelBuilder.Entity<Product>().Property(x=>x.Name).IsRequired().HasMaxLength(200);
+            modelBuilder.Entity<Category>().Property(x => x.Name).IsRequired().HasMaxLength(100);
+            modelBuilder.Entity<Product>().Property(x => x.Name).IsRequired().HasMaxLength(200);
             modelBuilder.Entity<Product>()
-                .HasOne(x=>x.Category)
-                .WithMany(x=>x.Products)
-                .HasForeignKey(x=>x.FkCategoryId) .OnDelete(DeleteBehavior.Cascade);
+                .HasOne(x => x.Category)
+                .WithMany(x => x.Products)
+                .HasForeignKey(x => x.FkCategoryId).OnDelete(DeleteBehavior.Cascade);
             modelBuilder.Entity<Sku>()
-                .HasOne(p=>p.Spu)
-                .WithMany(s=>s.Skus)
+                .HasOne(p => p.Spu)
+                .WithMany(s => s.Skus)
                 .IsRequired()
-                .HasForeignKey(x=>x.fkSpuId).OnDelete(DeleteBehavior.Cascade);
+                .HasForeignKey(x => x.fkSpuId).OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

@@ -8,55 +8,63 @@ namespace init_api.Controllers
 {
     [ApiController]
     [Route("api/categories")]
-    public class CategoriesController:ControllerBase
+    public class CategoriesController : ControllerBase
     {
         private readonly ICategoryRepository _categoryRepository;
         private readonly IMapper _mapper;
-        public CategoriesController(ICategoryRepository categoryRepository, IMapper mapper){
-            _categoryRepository=categoryRepository??throw new ArgumentNullException(nameof(categoryRepository));
-            _mapper=mapper??throw new ArgumentNullException(nameof(mapper));
+        public CategoriesController(ICategoryRepository categoryRepository, IMapper mapper)
+        {
+            _categoryRepository = categoryRepository ?? throw new ArgumentNullException(nameof(categoryRepository));
+            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
         [HttpGet]
         public async Task<ActionResult<IEnumerable<CategoryDto>>> GetCategories()
         {
-            var categories=await _categoryRepository.GetCategoriesAsync();
+            var categories = await _categoryRepository.GetCategoriesAsync();
 
-            var categoriesDto= _mapper.Map<IEnumerable<CategoryDto>>(categories);
+            var categoriesDto = _mapper.Map<IEnumerable<CategoryDto>>(categories);
 
             return Ok(categoriesDto);
         }
-        [HttpGet("{categoryId}",Name=nameof(GetCategory))]
-        public async Task<ActionResult<CategoryDto>> GetCategory(Guid categoryId){
-            var category=await _categoryRepository.GetCategoryAsync(categoryId);
-            if (category==null){
+        [HttpGet("{categoryId}", Name = nameof(GetCategory))]
+        public async Task<ActionResult<CategoryDto>> GetCategory(Guid categoryId)
+        {
+            var category = await _categoryRepository.GetCategoryAsync(categoryId);
+            if (category == null)
+            {
                 return NotFound();
             }
             return Ok(_mapper.Map<CategoryDto>(category));
         }
 
         [HttpPost]
-        public async Task<ActionResult<CategoryDto>> CreateCategory(CategoryAddDto category){
+        public async Task<ActionResult<CategoryDto>> CreateCategory(CategoryAddDto category)
+        {
             var entity = _mapper.Map<Category>(category);
             _categoryRepository.AddCategory(entity);
             await _categoryRepository.SaveAsync();
-            var returnDto=_mapper.Map<CategoryDto>(entity);
-            return CreatedAtRoute(nameof(GetCategory),new {categoryId=returnDto.UUID},returnDto);
+            var returnDto = _mapper.Map<CategoryDto>(entity);
+            return CreatedAtRoute(nameof(GetCategory), new { categoryId = returnDto.UUID }, returnDto);
         }
         [HttpPut("{categoryId}")]
-        public async Task<IActionResult> UpdateCategory(Guid categoryId,CategoryAddDto categoryUpdate){
-            var category =await _categoryRepository.GetCategoryAsync(categoryId);
-            if (category==null){
+        public async Task<IActionResult> UpdateCategory(Guid categoryId, CategoryAddDto categoryUpdate)
+        {
+            var category = await _categoryRepository.GetCategoryAsync(categoryId);
+            if (category == null)
+            {
                 return NotFound();
             }
-            _mapper.Map(categoryUpdate,category);
+            _mapper.Map(categoryUpdate, category);
             _categoryRepository.UpdateCategory(category);
             await _categoryRepository.SaveAsync();
             return NoContent();
         }
         [HttpDelete("{categoryId}")]
-        public async Task<IActionResult> DeleteCategory(Guid categoryId){
-            var category= await _categoryRepository.GetCategoryAsync(categoryId);
-            if (category==null){
+        public async Task<IActionResult> DeleteCategory(Guid categoryId)
+        {
+            var category = await _categoryRepository.GetCategoryAsync(categoryId);
+            if (category == null)
+            {
                 return NotFound();
             }
             _categoryRepository.DeleteCategory(category);

@@ -114,7 +114,7 @@ namespace init_api.Controllers
         {
             return _context.Users.Any(e => e.Id == id);
         }
-        
+
         private static UserDTO ToDTO(User user) =>
             new UserDTO
             {
