@@ -3,10 +3,6 @@ using AutoMapper;
 using init_api.Services;
 using init_api.Models;
 using init_api.Entities;
-using init_api.DtoParameters;
-using init_api.Helpers;
-using System.Text.Json;
-using System.Text.Encodings.Web;
 
 namespace init_api.Controllers
 {

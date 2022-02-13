@@ -6,12 +6,22 @@ namespace init_api.Services
 {
     public interface ISpuRepository
     {
-        Task<IEnumerable<Spu>>GetSpusAsync();
+        //spu process
+        Task<IEnumerable<Spu>>GetSpusAsync(); //uses under category
         Task<Spu>GetSpuAsync(Guid spuUUID);
         void AddSpu(Spu spu);
         void UpdateSpu(Spu spu);
         void DeleteSpu(Spu spu);
         Task<bool> SpuExistAsync(Guid spuUUID);
+
+        //sku process
+        Task<Sku>GetSkuAsync(Guid spuUUID,Guid skuUUID);
+        void AddSku(Guid spuUUID,Sku spu);
+        void UpdateSku(Sku sku);
+        void DeleteSku(Sku sku);
+        Task<bool> SkuExistAsync(Guid skuUUID);
+
+        //save changes
         Task<bool> SaveAsync();
     }
 }

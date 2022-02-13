@@ -6,3 +6,6 @@ image:
 
 push:
 	docker image push $(REGISTRY):$(VERSION)
+
+clean:
+	dotnet clean
