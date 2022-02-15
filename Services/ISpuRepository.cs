@@ -21,6 +21,8 @@ namespace init_api.Services
         void DeleteSku(Sku sku);
         Task<bool> SkuExistAsync(Guid skuUUID);
 
+        Task<Stock> GetStockAsync(Guid skuUUID);
+        void UpdateStock(Stock stock);
         //save changes
         Task<bool> SaveAsync();
     }

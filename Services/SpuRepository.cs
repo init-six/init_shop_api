@@ -59,12 +59,35 @@ namespace init_api.Services
         //sku process
         public async Task<Sku> GetSkuAsync(Guid spuUUID, Guid skuUUID)
         {
+            if (spuUUID == Guid.Empty)
+            {
+                throw new ArgumentNullException(nameof(spuUUID));
+            }
+
             if (skuUUID == Guid.Empty)
             {
                 throw new ArgumentNullException(nameof(skuUUID));
             }
+
             var res = await _context.Sku.Where(x => x.Spu.UUID == spuUUID && x.UUID == skuUUID).FirstOrDefaultAsync();
+            if (res != null)
+            {
+                var stock = await _context.Stock.Where(x => x.fkSkuId == res.Id).FirstOrDefaultAsync();
+                res.Stock = stock ?? new Stock();
+            }
             return res ?? new Sku();
+        }
+
+        //stock process
+        public async Task<Stock> GetStockAsync(Guid skuUUID)
+        {
+            if (skuUUID == Guid.Empty)
+            {
+                throw new ArgumentNullException(nameof(skuUUID));
+            }
+
+            var res = await _context.Stock.Where(x => x.Sku.UUID == skuUUID).FirstOrDefaultAsync();
+            return res ?? new Stock();
         }
 
         public void AddSku(Guid spuUUID, Sku sku)
@@ -86,7 +109,10 @@ namespace init_api.Services
 
         public void UpdateSku(Sku sku)
         {
-            //_context.Entry(sku).State=EntityState.Modified;
+        }
+
+        public void UpdateStock(Stock stock)
+        {
         }
 
         public void DeleteSku(Sku sku)
