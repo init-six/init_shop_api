@@ -17,6 +17,7 @@ namespace init_api.Data
         public DbSet<Spu> Spu { get; set; } = null!;
         public DbSet<Sku> Sku { get; set; } = null!;
         public DbSet<Stock> Stock { get; set; } = null!;
+        public DbSet<SpuDetail> SpuDetail { get; set; } = null!;
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<User>().ToTable("User");
@@ -26,6 +27,7 @@ namespace init_api.Data
             modelBuilder.Entity<Spu>().ToTable("Spu");
             modelBuilder.Entity<Sku>().ToTable("Sku");
             modelBuilder.Entity<Stock>().ToTable("Stock");
+            modelBuilder.Entity<SpuDetail>().ToTable("SpuDetail");
 
             modelBuilder.Entity<Category>().Property(x => x.Name).IsRequired().HasMaxLength(100);
             modelBuilder.Entity<Product>().Property(x => x.Name).IsRequired().HasMaxLength(200);
@@ -42,6 +44,10 @@ namespace init_api.Data
                 .HasOne(s => s.Stock)
                 .WithOne(o => o.Sku)
                 .HasForeignKey<Stock>(o => o.fkSkuId).OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.Entity<Spu>()
+                .HasOne(s => s.SpuDetail)
+                .WithOne(d => d.Spu)
+                .HasForeignKey<SpuDetail>(d => d.fkSpuId).OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

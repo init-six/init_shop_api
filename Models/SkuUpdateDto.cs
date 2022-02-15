@@ -11,6 +11,7 @@ namespace init_api.Models
         [Range(0, 1)]
         public byte Enable { get; set; }
         public DateTime LastUpdateTime { get; set; }
+        public StockUpdateDto Stock { get; set; }
         public SkuUpdateDto()
         {
             this.LastUpdateTime = DateTime.UtcNow;

@@ -11,6 +11,7 @@ namespace init_api.Services
         Task<Spu> GetSpuAsync(Guid spuUUID);
         void AddSpu(Spu spu);
         void UpdateSpu(Spu spu);
+        void UpdateSpuDetail(SpuDetail spudetail);
         void DeleteSpu(Spu spu);
         Task<bool> SpuExistAsync(Guid spuUUID);
 

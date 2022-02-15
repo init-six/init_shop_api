@@ -29,6 +29,8 @@ namespace init_api.Services
             {
                 var skus = await _context.Sku.Where(x => x.fkSpuId == res.Id).OrderBy(x => x.Name).ToListAsync();
                 res.Skus = skus;
+                var spudetail = await _context.SpuDetail.FirstOrDefaultAsync(x => x.fkSpuId == res.Id);
+                res.SpuDetail = spudetail ?? new SpuDetail();
             }
             return res ?? new Spu();
         }
@@ -52,6 +54,12 @@ namespace init_api.Services
         {
             //_context.Entry(spu).State=EntityState.Modified;
         }
+
+        public void UpdateSpuDetail(SpuDetail spudetail)
+        {
+
+        }
+
         public void DeleteSpu(Spu spu)
         {
             if (spu == null)
