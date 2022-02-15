@@ -14,6 +14,7 @@ namespace init_api.Models
         public DateTime CreateTime { get; set; }
         public DateTime LastUpdateTime { get; set; }
         public ICollection<SkuAddDto> Skus { get; set; } = new List<SkuAddDto>();
+        public SpuDetailAddDto SpuDetail { get; set; }
         public SpuAddDto()
         {
             this.Name = "undefined";
