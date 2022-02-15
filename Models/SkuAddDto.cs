@@ -10,6 +10,7 @@ namespace init_api.Models
         public string OwnSpec { get; set; } = string.Empty;
         [Range(0, 1)]
         public byte Enable { get; set; }
+        public StockAddDto Stock { get; set; }
         public SkuAddDto()
         {
             this.Name = "undefined";

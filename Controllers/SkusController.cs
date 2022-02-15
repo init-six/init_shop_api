@@ -46,7 +46,7 @@ namespace init_api.Controllers
         }
 
         [HttpPut("{skuUUID}")]
-        public async Task<IActionResult> UpdateSpu(Guid spuUUID, Guid skuUUID, SkuUpdateDto skuUpdateDto)
+        public async Task<IActionResult> UpdateSku(Guid spuUUID, Guid skuUUID, SkuUpdateDto skuUpdateDto)
         {
             if (!await _spuRepository.SpuExistAsync(spuUUID))
             {
@@ -59,6 +59,22 @@ namespace init_api.Controllers
             }
             _mapper.Map(skuUpdateDto, entity);
             _spuRepository.UpdateSku(entity);
+            await _spuRepository.SaveAsync();
+            return NoContent();
+        }
+
+        [HttpPut("{skuUUID}/stock")]
+        public async Task<IActionResult> UpdateStock(Guid skuUUID, StockUpdateDto stockUpdateDto)
+        {
+
+            var entity = await _spuRepository.GetStockAsync(skuUUID);
+            if (entity == null)
+            {
+                return NotFound();
+            }
+
+            _mapper.Map(stockUpdateDto, entity);
+            _spuRepository.UpdateStock(entity);
             await _spuRepository.SaveAsync();
             return NoContent();
         }

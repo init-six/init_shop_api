@@ -12,5 +12,6 @@ namespace init_api.Models
         public byte Enable { get; set; }
         public DateTime CreateTime { get; set; }
         public DateTime LastUpdateTime { get; set; }
+        public StockDto Stock { get; set; }
     }
 }

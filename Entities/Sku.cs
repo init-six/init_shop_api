@@ -25,6 +25,7 @@ namespace init_api.Entities
         public DateTime CreateTime { get; set; }
         public DateTime LastUpdateTime { get; set; }
         public Spu Spu { get; set; }
+        public Stock Stock { get; set; }
         public Sku()
         {
             this.Name = "undefined";
