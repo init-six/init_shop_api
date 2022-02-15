@@ -25,6 +25,11 @@ namespace init_api.Services
                 throw new ArgumentNullException(nameof(spuUUID));
             }
             var res = await _context.Spu.FirstOrDefaultAsync(x => x.UUID == spuUUID);
+            if (res != null)
+            {
+                var skus = await _context.Sku.Where(x => x.fkSpuId == res.Id).OrderBy(x => x.Name).ToListAsync();
+                res.Skus = skus;
+            }
             return res ?? new Spu();
         }
         public void AddSpu(Spu spu)
@@ -34,6 +39,13 @@ namespace init_api.Services
                 throw new ArgumentNullException(nameof(spu));
             }
             spu.UUID = Guid.NewGuid();
+            if (spu.Skus != null)
+            {
+                foreach (var sku in spu.Skus)
+                {
+                    sku.UUID = Guid.NewGuid();
+                }
+            }
             _context.Spu.Add(spu);
         }
         public void UpdateSpu(Spu spu)
