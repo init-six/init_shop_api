@@ -10,5 +10,6 @@ namespace init_api.Models
         public byte Valid { get; set; }
         public DateTime CreateTime { get; set; }
         public DateTime LastUpdateTime { get; set; }
+        public ICollection<SkuDto> Skus { get; set; } = new List<SkuDto>();
     }
 }
