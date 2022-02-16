@@ -11,8 +11,7 @@ namespace init_api.Models
         [Range(0, 1)]
         public byte Valid { get; set; }
         public DateTime LastUpdateTime { get; set; }
-        public ICollection<SkuUpdateDto> Skus { get; set; } = new List<SkuUpdateDto>();
-        public SpuDetailUpdateDto SpuDetail { get; set; }
+        public SpuDetailUpdateDto SpuDetail { get; set; } = new SpuDetailUpdateDto();
         public SpuUpdateDto()
         {
             this.LastUpdateTime = DateTime.UtcNow;

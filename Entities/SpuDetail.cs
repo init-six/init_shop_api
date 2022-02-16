@@ -18,7 +18,8 @@ namespace init_api.Entities
         [Column(TypeName = "varchar(1000)")]
         public string PackingList { get; set; }
         [Column(TypeName = "varchar(1000)")]
-        public string AfterService { get; set; }
+        public string? AfterService { get; set; }
+        //#TODO spu and spu detail is one to one and always linked
         public Spu Spu { get; set; }
         public SpuDetail()
         {
