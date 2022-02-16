@@ -24,8 +24,8 @@ namespace init_api.Entities
         public byte Enable { get; set; }
         public DateTime CreateTime { get; set; }
         public DateTime LastUpdateTime { get; set; }
-        public Spu Spu { get; set; }
-        public Stock Stock { get; set; }
+        public Spu Spu { get; set; } = new Spu();
+        public Stock Stock { get; set; } = new Stock();
         public Sku()
         {
             this.Name = "undefined";

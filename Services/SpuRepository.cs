@@ -29,6 +29,14 @@ namespace init_api.Services
             {
                 var skus = await _context.Sku.Where(x => x.fkSpuId == res.Id).OrderBy(x => x.Name).ToListAsync();
                 res.Skus = skus;
+                if (res.Skus != null)
+                {
+                    foreach (var sku in res.Skus)
+                    {
+                        var stock = await _context.Stock.FirstOrDefaultAsync(x => x.fkSkuId == sku.Id);
+                        sku.Stock = stock ?? new Stock();
+                    }
+                }
                 var spudetail = await _context.SpuDetail.FirstOrDefaultAsync(x => x.fkSpuId == res.Id);
                 res.SpuDetail = spudetail ?? new SpuDetail();
             }
@@ -121,9 +129,12 @@ namespace init_api.Services
             {
                 throw new ArgumentNullException(nameof(sku));
             }
-            sku.Spu = spu;
-            sku.fkSpuId = spu.Id;
-            sku.UUID = Guid.NewGuid();
+            if (spu != null)
+            {
+                sku.Spu = spu;
+                sku.fkSpuId = spu.Id;
+                sku.UUID = Guid.NewGuid();
+            }
             _context.Sku.Add(sku);
         }
 

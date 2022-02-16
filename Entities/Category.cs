@@ -6,7 +6,7 @@ namespace init_api.Entities
         public Guid UUID { get; set; }
         public string? Name { get; set; }
         public string? Icon { get; set; }
-        public ICollection<Category> Categories { get; set; }
-        public ICollection<Product> Products { get; set; }
+        public ICollection<Category> Categories { get; set; } = new List<Category>();
+        public ICollection<Product> Products { get; set; } = new List<Product>();
     }
 }

@@ -12,7 +12,7 @@ namespace init_api.Entities
         public long TelNumber { get; set; }
 
         [InverseProperty("User")]
-        public List<Order> Orders { get; set; }
+        public List<Order> Orders { get; set; } = new List<Order>();
     }
 
 

@@ -22,7 +22,7 @@ namespace init_api.Services
             {
                 throw new ArgumentNullException(nameof(categoryId));
             }
-            return await _context.Categories.FirstOrDefaultAsync(x => x.UUID == categoryId);
+            return await _context.Categories.FirstOrDefaultAsync(x => x.UUID == categoryId) ?? new Category();
         }
         public async Task<IEnumerable<Category>> GetCategoriesAsync(IEnumerable<Guid> categoryIds)
         {
@@ -103,7 +103,7 @@ namespace init_api.Services
             {
                 throw new ArgumentNullException(nameof(productId), nameof(categoryId));
             }
-            return await _context.Products.Where(x => x.UUID == productId && x.CategoryId == categoryId).FirstOrDefaultAsync();
+            return await _context.Products.Where(x => x.UUID == productId && x.CategoryId == categoryId).FirstOrDefaultAsync() ?? new Product();
         }
 
         public void AddProduct(Guid categoryId, Product product)
@@ -117,9 +117,12 @@ namespace init_api.Services
             {
                 throw new ArgumentNullException(nameof(product));
             }
-            product.CategoryId = categoryId;
-            product.FkCategoryId = category.Id;
             product.UUID = Guid.NewGuid();
+            if (category != null)
+            {
+                product.CategoryId = categoryId;
+                product.FkCategoryId = category.Id;
+            }
             _context.Products.Add(product);
         }
         public void UpdateProduct(Product product)

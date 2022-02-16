@@ -16,6 +16,7 @@ namespace init_api.Entities
         public Int16 SeckillTotal { get; set; }
         [Comment("Stock Number")]
         public Int16 StockNum { get; set; }
+        //#TODO Stocku And Sku is One To One. And always linked
         public Sku Sku { get; set; }
         public Stock()
         {

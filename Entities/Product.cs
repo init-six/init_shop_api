@@ -14,7 +14,7 @@
         public string? VideoURL { get; set; }
 
         public string? Tags { get; set; }
-        public Category Category { get; set; }
+        public Category Category { get; set; } = new Category();
 
         public Product()
         {

@@ -24,8 +24,8 @@ namespace init_api.Entities
         public byte Valid { get; set; }
         public DateTime CreateTime { get; set; }
         public DateTime LastUpdateTime { get; set; }
-        public ICollection<Sku> Skus { get; set; }
-        public SpuDetail SpuDetail { get; set; }
+        public ICollection<Sku> Skus { get; set; } = new List<Sku>();
+        public SpuDetail SpuDetail { get; set; } = new SpuDetail();
         public Spu()
         {
             this.Name = "undefined";
