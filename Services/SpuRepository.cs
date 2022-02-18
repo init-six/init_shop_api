@@ -1,8 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using init_api.Data;
 using init_api.Entities;
-using init_api.DtoParameters;
-using init_api.Helpers;
 
 namespace init_api.Services
 {

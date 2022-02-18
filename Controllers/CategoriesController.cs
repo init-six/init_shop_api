@@ -47,7 +47,7 @@ namespace init_api.Controllers
             return CreatedAtRoute(nameof(GetCategory), new { categoryId = returnDto.UUID }, returnDto);
         }
         [HttpPut("{categoryId}")]
-        public async Task<IActionResult> UpdateCategory(Guid categoryId, CategoryAddDto categoryUpdate)
+        public async Task<IActionResult> UpdateCategory(Guid categoryId, CategoryUpdateDto categoryUpdate)
         {
             var category = await _categoryRepository.GetCategoryAsync(categoryId);
             if (category == null)
@@ -59,6 +59,7 @@ namespace init_api.Controllers
             await _categoryRepository.SaveAsync();
             return NoContent();
         }
+
         [HttpDelete("{categoryId}")]
         public async Task<IActionResult> DeleteCategory(Guid categoryId)
         {

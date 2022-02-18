@@ -1,8 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using init_api.Data;
 using init_api.Entities;
-using init_api.DtoParameters;
-using init_api.Helpers;
 namespace init_api.Services
 {
     public class CategoryRepository : ICategoryRepository
@@ -16,14 +14,25 @@ namespace init_api.Services
         {
             return await _context.Categories.ToListAsync();
         }
+
         public async Task<Category> GetCategoryAsync(Guid categoryId)
         {
             if (categoryId == Guid.Empty)
             {
                 throw new ArgumentNullException(nameof(categoryId));
             }
-            return await _context.Categories.FirstOrDefaultAsync(x => x.UUID == categoryId) ?? new Category();
+            var category = await _context.Categories.FirstOrDefaultAsync(x => x.UUID == categoryId) ?? new Category();
+            category.children = await _context.SecCategories.Where(x => x.ParentId == category.Id).ToListAsync();
+            if (category.children != null)
+            {
+                foreach (var children in category.children)
+                {
+                    children.Children = await _context.ThirdCategories.Where(x => x.ParentId == children.Id).ToListAsync();
+                }
+            }
+            return category;
         }
+
         public async Task<IEnumerable<Category>> GetCategoriesAsync(IEnumerable<Guid> categoryIds)
         {
             if (categoryIds == null)
@@ -41,12 +50,19 @@ namespace init_api.Services
                 throw new ArgumentNullException(nameof(category));
             }
             category.UUID = Guid.NewGuid();
-            if (category.Products != null)
+            if (category.children != null)
             {
-                foreach (var product in category.Products)
+                foreach (var sec in category.children)
                 {
-                    product.UUID = Guid.NewGuid();
-                    product.CategoryId = category.UUID;
+                    sec.UUID = Guid.NewGuid();
+                    if (sec.Children != null)
+                    {
+                        foreach (var third in sec.Children)
+                        {
+                            third.UUID = Guid.NewGuid();
+                        }
+
+                    }
                 }
             }
             _context.Categories.Add(category);
@@ -72,70 +88,102 @@ namespace init_api.Services
             return await _context.Categories.AnyAsync(x => x.UUID == categoryId);
         }
 
-        public async Task<PagedList<Product>> GetProductsAsync(Guid categoryId, ProductDtoParameters parameters)
-        {
-            if (categoryId == Guid.Empty)
-            {
-                throw new ArgumentNullException(nameof(categoryId));
-            }
-            if (parameters == null)
-            {
-                throw new ArgumentNullException(nameof(parameters));
-            }
-            var queryExpressoin = _context.Products as IQueryable<Product>;
-
-            if (!string.IsNullOrWhiteSpace(parameters.ProductName))
-            {
-                parameters.ProductName = parameters.ProductName.Trim();
-                queryExpressoin = queryExpressoin.Where(x => x.Name == parameters.ProductName);
-            }
-
-            queryExpressoin = queryExpressoin
-                .Where(x => x.CategoryId == categoryId)
-                .OrderBy(x => x.Name);
-
-            return await PagedList<Product>.CreateAsync(queryExpressoin, parameters.PageNumber, parameters.PageSize);
-        }
-
-        public async Task<Product> GetProductAsync(Guid categoryId, Guid productId)
-        {
-            if (productId == Guid.Empty || categoryId == Guid.Empty)
-            {
-                throw new ArgumentNullException(nameof(productId), nameof(categoryId));
-            }
-            return await _context.Products.Where(x => x.UUID == productId && x.CategoryId == categoryId).FirstOrDefaultAsync() ?? new Product();
-        }
-
-        public void AddProduct(Guid categoryId, Product product)
-        {
-            if (categoryId == Guid.Empty)
-            {
-                throw new ArgumentNullException(nameof(categoryId));
-            }
-            var category = _context.Categories.FirstOrDefault(x => x.UUID == categoryId);
-            if (product == null)
-            {
-                throw new ArgumentNullException(nameof(product));
-            }
-            product.UUID = Guid.NewGuid();
-            if (category != null)
-            {
-                product.CategoryId = categoryId;
-                product.FkCategoryId = category.Id;
-            }
-            _context.Products.Add(product);
-        }
-        public void UpdateProduct(Product product)
-        {
-            //_context.Entry(product).State=EntityState.Modified;
-        }
-        public void DeleteProduct(Product product)
-        {
-            _context.Products.Remove(product);
-        }
         public async Task<bool> SaveAsync()
         {
             return await _context.SaveChangesAsync() >= 0;
+        }
+
+        //sec category process
+        public async Task<SecCategory> GetSecCategoryAsync(Guid categoryId)
+        {
+            if (categoryId == Guid.Empty)
+            {
+                throw new ArgumentNullException(nameof(categoryId));
+            }
+            var category = await _context.SecCategories.FirstOrDefaultAsync(x => x.UUID == categoryId) ?? new SecCategory();
+            category.Children = await _context.ThirdCategories.Where(x => x.ParentId == category.Id).ToListAsync();
+            return category;
+        }
+
+        public void AddSecCategory(SecCategory category)
+        {
+            if (category == null)
+            {
+                throw new ArgumentNullException(nameof(category));
+            }
+            category.UUID = Guid.NewGuid();
+            if (category.Children != null)
+            {
+                foreach (var third in category.Children)
+                {
+                    third.UUID = Guid.NewGuid();
+                }
+            }
+            _context.SecCategories.Add(category);
+        }
+
+        public void UpdateSecCategory(SecCategory category)
+        {
+            //_context.Entry(category).State=EntityState.Modified;
+        }
+
+        public void DeleteSecCategory(SecCategory category)
+        {
+            if (category == null)
+            {
+                throw new ArgumentNullException(nameof(category));
+            }
+            _context.SecCategories.Remove(category);
+        }
+        public async Task<bool> SecCategoryExistsAsync(Guid categoryId)
+        {
+            if (categoryId == Guid.Empty)
+            {
+                throw new ArgumentNullException(nameof(categoryId));
+            }
+            return await _context.SecCategories.AnyAsync(x => x.UUID == categoryId);
+        }
+
+        //third category process
+        public async Task<ThirdCategory> GetThirdCategoryAsync(Guid categoryId)
+        {
+            if (categoryId == Guid.Empty)
+            {
+                throw new ArgumentNullException(nameof(categoryId));
+            }
+            return await _context.ThirdCategories.FirstOrDefaultAsync(x => x.UUID == categoryId) ?? new ThirdCategory();
+        }
+
+        public void AddThirdCategory(ThirdCategory category)
+        {
+            if (category == null)
+            {
+                throw new ArgumentNullException(nameof(category));
+            }
+            category.UUID = Guid.NewGuid();
+            _context.ThirdCategories.Add(category);
+        }
+
+        public void UpdateThirdCategory(ThirdCategory category)
+        {
+            //_context.Entry(category).State=EntityState.Modified;
+        }
+        public void DeleteThirdCategory(ThirdCategory category)
+        {
+            if (category == null)
+            {
+                throw new ArgumentNullException(nameof(category));
+            }
+            _context.ThirdCategories.Remove(category);
+        }
+
+        public async Task<bool> ThirdCategoryExistsAsync(Guid categoryId)
+        {
+            if (categoryId == Guid.Empty)
+            {
+                throw new ArgumentNullException(nameof(categoryId));
+            }
+            return await _context.ThirdCategories.AnyAsync(x => x.UUID == categoryId);
         }
     }
 }

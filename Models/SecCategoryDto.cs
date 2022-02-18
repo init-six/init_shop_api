@@ -1,10 +1,10 @@
 namespace init_api.Models
 {
-    public class CategoryDto
+    public class SecCategoryDto
     {
         public Guid UUID { get; set; }
         public string? Name { get; set; }
         public string? Icon { get; set; }
-        public ICollection<SecCategoryDto> Children { get; set; } = new List<SecCategoryDto>();
+        public ICollection<ThirdCategoryDto> Children { get; set; } = new List<ThirdCategoryDto>();
     }
 }

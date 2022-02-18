@@ -10301,6 +10301,7 @@
         "net6.0"
       ],
       "sources": {
+        "/home/carryevan/.nuget/NuGet/Microsoft.AspNetCore.SignalR.Protocols.NewtonsoftJson": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {

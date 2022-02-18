@@ -1,6 +1,4 @@
 using init_api.Entities;
-using init_api.DtoParameters;
-using init_api.Helpers;
 
 namespace init_api.Services
 {
@@ -13,11 +11,20 @@ namespace init_api.Services
         void UpdateCategory(Category category);
         void DeleteCategory(Category category);
         Task<bool> CategoryExistsAsync(Guid categoryId);
-        Task<PagedList<Product>> GetProductsAsync(Guid categoryId, ProductDtoParameters parameters);
-        Task<Product> GetProductAsync(Guid categoryId, Guid productId);
-        void AddProduct(Guid categoryId, Product product);
-        void DeleteProduct(Product product);
-        void UpdateProduct(Product product);
+
+        //sec category
+        Task<SecCategory> GetSecCategoryAsync(Guid categoryId);
+        void AddSecCategory(SecCategory category);
+        void UpdateSecCategory(SecCategory category);
+        void DeleteSecCategory(SecCategory category);
+        Task<bool> SecCategoryExistsAsync(Guid categoryId);
+
+        //third category
+        Task<ThirdCategory> GetThirdCategoryAsync(Guid categoryId);
+        void AddThirdCategory(ThirdCategory category);
+        void UpdateThirdCategory(ThirdCategory category);
+        void DeleteThirdCategory(ThirdCategory category);
+        Task<bool> ThirdCategoryExistsAsync(Guid categoryId);
         Task<bool> SaveAsync();
     }
 }

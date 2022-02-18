@@ -5,6 +5,9 @@ namespace init_api.Models
     {
         [Required]
         public string? Name { get; set; }
+        public Guid? Ct1 { get; set; }
+        public Guid? Ct2 { get; set; }
+        public Guid? Ct3 { get; set; }
         [Required]
         [Range(0, 1)]
         public byte Saleable { get; set; }

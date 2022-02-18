@@ -6,6 +6,9 @@ namespace init_api.Models
         public Guid UUID { get; set; }
         [Required]
         public string? Name { get; set; }
+        public Guid? Ct1 { get; set; }
+        public Guid? Ct2 { get; set; }
+        public Guid? Ct3 { get; set; }
         public byte Saleable { get; set; }
         public byte Valid { get; set; }
         public DateTime CreateTime { get; set; }

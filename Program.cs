@@ -5,6 +5,7 @@ using init_api.Entities;
 using init_api.Data;
 using init_api.Services;
 using Microsoft.EntityFrameworkCore;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -26,9 +27,6 @@ builder.Services.AddSwaggerGen();
 //     => opt.UseInMemoryDatabase("init-shop"));
 builder.Services.AddDbContext<ShopContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("ShopContext")));
-
-
-
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -46,11 +44,7 @@ using (var scope = app.Services.CreateScope())
     context.Database.EnsureCreated();
     DbInitializer.Initialize(context);
 }
-
 app.UseHttpsRedirection();
-
 app.UseAuthorization();
-
 app.MapControllers();
-
 app.Run();

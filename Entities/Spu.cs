@@ -11,11 +11,11 @@ namespace init_api.Entities
         public Guid UUID { get; set; }
         public string Name { get; set; }
         [Comment("first category")]
-        public Int64? Ct1 { get; set; }
+        public Guid? Ct1 { get; set; }
         [Comment("second category")]
-        public Int64? Ct2 { get; set; }
+        public Guid? Ct2 { get; set; }
         [Comment("third category")]
-        public Int64? Ct3 { get; set; }
+        public Guid? Ct3 { get; set; }
         [Comment("brand id")]
         public Int64? BrandId { get; set; }
         [Comment("0 offshore, 1 onshore; default 1;")]

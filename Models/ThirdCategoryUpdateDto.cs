@@ -1,11 +1,10 @@
 using System.ComponentModel.DataAnnotations;
 namespace init_api.Models
 {
-    public class CategoryAddDto
+    public class ThirdCategoryUpdateDto
     {
         [Required]
         public string? Name { get; set; }
         public string? Icon { get; set; }
-        public ICollection<SecCategoryAddDto> Children { get; set; } = new List<SecCategoryAddDto>();
     }
 }
