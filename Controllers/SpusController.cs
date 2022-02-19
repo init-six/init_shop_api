@@ -12,10 +12,12 @@ namespace init_api.Controllers
     {
         private readonly IMapper _mapper;
         private readonly ISpuRepository _spuRepository;
-        public SpusController(IMapper map, ISpuRepository spuRepository)
+        private readonly ICategoryRepository _categoryRepository;
+        public SpusController(IMapper map, ISpuRepository spuRepository, ICategoryRepository categoryRepository)
         {
             _mapper = map ?? throw new ArgumentNullException(nameof(map));
             _spuRepository = spuRepository ?? throw new ArgumentNullException(nameof(spuRepository));
+            _categoryRepository = categoryRepository ?? throw new ArgumentNullException(nameof(categoryRepository));
         }
 
         [HttpGet("{spuUUID}", Name = nameof(GetSpu))]
@@ -33,20 +35,52 @@ namespace init_api.Controllers
             var spuDto = _mapper.Map<SpuDto>(spu);
             return Ok(spuDto);
         }
+
         [HttpPost]
         public async Task<ActionResult<SpuDto>> CreateSpu(SpuAddDto spu)
         {
             var entity = _mapper.Map<Spu>(spu);
+            //check linked categories
+            if ((spu.Ct1 != Guid.Empty) && (spu.Ct1.HasValue) && (!await _categoryRepository.CategoryExistsAsync(spu.Ct1.Value)))
+            {
+                return NotFound();
+            }
+            if ((spu.Ct2 != Guid.Empty) && (spu.Ct2.HasValue) && (spu.Ct1.HasValue)
+                    && (!await _categoryRepository.SecCategoryExistsAsync(spu.Ct1.Value, spu.Ct2.Value)))
+            {
+                return NotFound();
+            }
+            if ((spu.Ct3 != Guid.Empty) && (spu.Ct3.HasValue) && (spu.Ct2.HasValue)
+                    && (!await _categoryRepository.ThirdCategoryExistsAsync(spu.Ct2.Value, spu.Ct3.Value)))
+            {
+                return NotFound();
+            }
             _spuRepository.AddSpu(entity);
             await _spuRepository.SaveAsync();
             var returnDto = _mapper.Map<SpuDto>(entity);
             return CreatedAtRoute(nameof(GetSpu), new { spuUUID = returnDto.UUID }
                     , returnDto);
         }
+
         [HttpPut("{spuUUID}")]
         public async Task<IActionResult> UpdateSpu(Guid spuUUID, SpuUpdateDto spuUpdateDto)
         {
             if (!await _spuRepository.SpuExistAsync(spuUUID))
+            {
+                return NotFound();
+            }
+            //check linked categories
+            if ((spuUpdateDto.Ct1 != Guid.Empty) && (spuUpdateDto.Ct1.HasValue) && (!await _categoryRepository.CategoryExistsAsync(spuUpdateDto.Ct1.Value)))
+            {
+                return NotFound();
+            }
+            if ((spuUpdateDto.Ct2 != Guid.Empty) && (spuUpdateDto.Ct2.HasValue) && (spuUpdateDto.Ct1.HasValue)
+                    && (!await _categoryRepository.SecCategoryExistsAsync(spuUpdateDto.Ct1.Value, spuUpdateDto.Ct2.Value)))
+            {
+                return NotFound();
+            }
+            if ((spuUpdateDto.Ct3 != Guid.Empty) && (spuUpdateDto.Ct3.HasValue) && (spuUpdateDto.Ct2.HasValue)
+                    && (!await _categoryRepository.ThirdCategoryExistsAsync(spuUpdateDto.Ct2.Value, spuUpdateDto.Ct3.Value)))
             {
                 return NotFound();
             }
@@ -60,6 +94,7 @@ namespace init_api.Controllers
             await _spuRepository.SaveAsync();
             return NoContent();
         }
+
         [HttpDelete("{spuUUID}")]
         public async Task<IActionResult> DeleteSpu(Guid spuUUID)
         {
