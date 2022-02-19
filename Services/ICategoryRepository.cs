@@ -17,14 +17,14 @@ namespace init_api.Services
         void AddSecCategory(SecCategory category);
         void UpdateSecCategory(SecCategory category);
         void DeleteSecCategory(SecCategory category);
-        Task<bool> SecCategoryExistsAsync(Guid categoryId);
+        Task<bool> SecCategoryExistsAsync(Guid parentId, Guid categoryId);
 
         //third category
         Task<ThirdCategory> GetThirdCategoryAsync(Guid categoryId);
         void AddThirdCategory(ThirdCategory category);
         void UpdateThirdCategory(ThirdCategory category);
         void DeleteThirdCategory(ThirdCategory category);
-        Task<bool> ThirdCategoryExistsAsync(Guid categoryId);
+        Task<bool> ThirdCategoryExistsAsync(Guid secCategoryId, Guid categoryId);
         Task<bool> SaveAsync();
     }
 }

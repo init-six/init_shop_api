@@ -135,13 +135,13 @@ namespace init_api.Services
             }
             _context.SecCategories.Remove(category);
         }
-        public async Task<bool> SecCategoryExistsAsync(Guid categoryId)
+        public async Task<bool> SecCategoryExistsAsync(Guid parentId, Guid categoryId)
         {
             if (categoryId == Guid.Empty)
             {
                 throw new ArgumentNullException(nameof(categoryId));
             }
-            return await _context.SecCategories.AnyAsync(x => x.UUID == categoryId);
+            return await _context.SecCategories.AnyAsync(x => x.UUID == categoryId && x.Parent.UUID == parentId);
         }
 
         //third category process
@@ -177,13 +177,13 @@ namespace init_api.Services
             _context.ThirdCategories.Remove(category);
         }
 
-        public async Task<bool> ThirdCategoryExistsAsync(Guid categoryId)
+        public async Task<bool> ThirdCategoryExistsAsync(Guid secCategoryId, Guid categoryId)
         {
             if (categoryId == Guid.Empty)
             {
                 throw new ArgumentNullException(nameof(categoryId));
             }
-            return await _context.ThirdCategories.AnyAsync(x => x.UUID == categoryId);
+            return await _context.ThirdCategories.AnyAsync(x => x.UUID == categoryId && x.Parent.UUID == secCategoryId);
         }
     }
 }
