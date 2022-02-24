@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 using init_api.Services;
 using AutoMapper;
 using init_api.Models;
@@ -17,7 +18,7 @@ namespace init_api.Controllers
             _categoryRepository = categoryRepository ?? throw new ArgumentNullException(nameof(categoryRepository));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
-        [HttpGet]
+        [HttpGet, Authorize(Roles = "User,Admin")]
         public async Task<ActionResult<IEnumerable<CategoryDto>>> GetCategories()
         {
             var categories = await _categoryRepository.GetCategoriesAsync();

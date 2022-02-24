@@ -1,127 +1,129 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using init_api.Entities;
 using init_api.Models;
-using init_api.Data;
-
-
+using init_api.Services;
+using init_api.Entities;
+using AutoMapper;
+using System.Security.Cryptography;
+using System.Security.Claims;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
 namespace init_api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
     public class UserController : ControllerBase
     {
-        private readonly ShopContext _context;
+        private readonly IUserRepository _userRepository;
 
-        public UserController(ShopContext context)
+        private readonly IMapper _mapper;
+
+        private readonly IConfiguration _configuration;
+
+        public UserController(IConfiguration configuration, IUserRepository userRepository, IMapper mapper)
         {
-            _context = context;
+            _userRepository = userRepository ?? throw new ArgumentNullException(nameof(userRepository));
+            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+            _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
         }
 
-        // GET: api/User
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<UserDTO>>> GetUsers()
+        [HttpPost("register")]
+        public async Task<ActionResult<UserDTO>> Register(UserAddDto request)
         {
-            return await _context.Users
-                .Select(x => ToDTO(x))
-                .ToListAsync();
+            if (await _userRepository.UserExistAsync(request.Email))
+            {
+                return Conflict("User Email Exist");
+            }
+            CreatePasswordHash(request.Password, out byte[] passwordHash, out byte[] passwordSalt);
+            var user = new User() { };
+            user.Email = request.Email.ToLower().Trim();
+            user.PasswordHash = passwordHash;
+            user.PasswordSalt = passwordSalt;
+            user.UserName = request.UserName;
+            user.UUID = Guid.NewGuid();
+            _userRepository.AddUser(user);
+            await _userRepository.SaveAsync();
+            var returnDto = _mapper.Map<UserDTO>(user);
+            return Ok(returnDto);
         }
 
-        // GET: api/User/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<UserDTO>> GetUser(long id)
+        [HttpPost("login")]
+        public async Task<ActionResult<UserDTO>> Login(UserLoginDto request)
         {
-            var user = await _context.Users.FindAsync(id);
+            if (!await _userRepository.UserExistAsync(request.Email))
+            {
+                return Conflict("User email not exist");
+            }
+
+            var user = await _userRepository.GetUserAsync(request.Email);
 
             if (user == null)
             {
-                return NotFound();
+                return NotFound("User not found.");
             }
 
-            return ToDTO(user);
+            if (!VerifyPsswordHash(request.Password, user.PasswordHash, user.PasswordSalt))
+            {
+                return BadRequest("Passowrd not correct");
+            }
+
+            string token = CreateToken(user);
+            var returnDto = _mapper.Map<UserDTO>(user);
+            returnDto.Token = token;
+            return Ok(returnDto);
         }
 
-        // PUT: api/User/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutUser(long id, UserDTO userDTO)
+        private string CreateToken(User user)
         {
-            if (id != userDTO.Id)
+            List<Claim> claims = new List<Claim>
             {
-                return BadRequest();
-            }
+                new Claim(ClaimTypes.Name,user.UserName),
+                new Claim(ClaimTypes.Role,user.Role)
+            };
+            var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(_configuration.GetSection("AppSettings:Token").Value));
+            var cred = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
+            var token = new JwtSecurityToken(
+                    claims: claims,
+                    expires: DateTime.Now.AddDays(1),
+                    signingCredentials: cred
+            );
+            var jwt = new JwtSecurityTokenHandler().WriteToken(token);
+            return jwt;
+        }
 
-            var user = await _context.Users.FindAsync(id);
-            if (user == null)
+        private void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
+        {
+            using (var hmac = new HMACSHA512())
+            {
+                passwordSalt = hmac.Key;
+                passwordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
+            }
+        }
+
+        private bool VerifyPsswordHash(string password, byte[] passwordHash, byte[] passwordSalt)
+        {
+            using (var hmac = new HMACSHA512(passwordSalt))
+            {
+                var computeHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
+                return computeHash.SequenceEqual(passwordHash);
+            }
+        }
+
+        [HttpPut("{userUUID}")]
+        public async Task<IActionResult> UpdateUser(Guid userUUID, UserUpdateDto userUpdateDto)
+        {
+            if (!await _userRepository.UserExistAsync(userUUID))
             {
                 return NotFound();
             }
-
-            user.UserName = userDTO.UserName;
-            user.Email = userDTO.Email;
-            user.TelNumber = userDTO.TelNumber;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException) when (!UserExists(id))
+            var entity = await _userRepository.GetUserAsync(userUUID);
+            if (entity == null)
             {
                 return NotFound();
             }
-
+            _mapper.Map(userUpdateDto, entity);
+            _userRepository.UpdateUser(entity);
+            await _userRepository.SaveAsync();
             return NoContent();
         }
-
-        // POST: api/User
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost]
-        public async Task<ActionResult<User>> PostUser(UserDTO userDTO)
-        {
-            var user = new User()
-            {
-                UserName = userDTO.UserName,
-                Email = userDTO.Email,
-                TelNumber = userDTO.TelNumber
-            };
-
-            _context.Users.Add(user);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction(
-                nameof(GetUser),
-                new { id = user.Id },
-                ToDTO(user));
-        }
-
-        // DELETE: api/User/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteUser(long id)
-        {
-            var user = await _context.Users.FindAsync(id);
-            if (user == null)
-            {
-                return NotFound();
-            }
-
-            _context.Users.Remove(user);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
-        }
-
-        private bool UserExists(long id)
-        {
-            return _context.Users.Any(e => e.Id == id);
-        }
-
-        private static UserDTO ToDTO(User user) =>
-            new UserDTO
-            {
-                Id = user.Id,
-                UserName = user.UserName,
-                Email = user.Email,
-                TelNumber = user.TelNumber
-            };
     }
 }
