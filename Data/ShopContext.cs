@@ -20,15 +20,15 @@ namespace init_api.Data
         public DbSet<ThirdCategory> ThirdCategories { get; set; } = null!;
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<User>().ToTable("User");
-            modelBuilder.Entity<Order>().ToTable("Order");
-            modelBuilder.Entity<Category>().ToTable("Category");
-            modelBuilder.Entity<Spu>().ToTable("Spu");
-            modelBuilder.Entity<Sku>().ToTable("Sku");
-            modelBuilder.Entity<Stock>().ToTable("Stock");
-            modelBuilder.Entity<SpuDetail>().ToTable("SpuDetail");
-            modelBuilder.Entity<SecCategory>().ToTable("SecCategory");
-            modelBuilder.Entity<ThirdCategory>().ToTable("ThirdCategory");
+            modelBuilder.Entity<User>().ToTable("user");
+            modelBuilder.Entity<Order>().ToTable("order");
+            modelBuilder.Entity<Category>().ToTable("category");
+            modelBuilder.Entity<Spu>().ToTable("spu");
+            modelBuilder.Entity<Sku>().ToTable("sku");
+            modelBuilder.Entity<Stock>().ToTable("stock");
+            modelBuilder.Entity<SpuDetail>().ToTable("spuDetail");
+            modelBuilder.Entity<SecCategory>().ToTable("secCategory");
+            modelBuilder.Entity<ThirdCategory>().ToTable("thirdCategory");
 
             modelBuilder.Entity<Sku>()
                 .HasOne(p => p.Spu)

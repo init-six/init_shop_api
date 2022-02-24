@@ -6,20 +6,18 @@ public class DbInitializer
     public static void Initialize(ShopContext context)
     {
         // Look for any user.
-        if (context.Users.Any())
-        {
-            return;   // DB has been seeded
-        }
+        //if (context.Users.Any())
+        //{
+        //    return;   // DB has been seeded
+        //}
 
-        var users = new User[]
-        {
-            new User{UserName= "Enno Huang",Password="123",Role="admin", Email="123@mail.com", TelNumber = 123},
-            new User{UserName= "Eval Liu",Password="123",Role="admin", Email="123@mail.com", TelNumber = 123},
-            new User{UserName= "Customer X",Password="123",Role="customer", Email="123@mail.com", TelNumber = 123}
-        };
+        //var users = new User[]
+        //{
+        //    //new User{UserName= "Customer X",Password="123",Role="customer", Email="123@mail.com", TelNumber = 123}
+        //};
 
-        context.Users.AddRange(users);
-        context.SaveChanges();
+        //context.Users.AddRange(users);
+        //context.SaveChanges();
 
         //var categories = new Category[]
         //{
