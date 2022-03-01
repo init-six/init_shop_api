@@ -9,6 +9,7 @@ namespace init_api.Controllers
 {
     [ApiController]
     [Route("api/categories")]
+    [Authorize(Roles="User,Admin")]
     public class CategoriesController : ControllerBase
     {
         private readonly ICategoryRepository _categoryRepository;
@@ -18,7 +19,7 @@ namespace init_api.Controllers
             _categoryRepository = categoryRepository ?? throw new ArgumentNullException(nameof(categoryRepository));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
-        [HttpGet, Authorize(Roles = "User,Admin")]
+        [HttpGet]
         public async Task<ActionResult<IEnumerable<CategoryDto>>> GetCategories()
         {
             var categories = await _categoryRepository.GetCategoriesAsync();

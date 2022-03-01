@@ -3,11 +3,13 @@ using init_api.Services;
 using AutoMapper;
 using init_api.Models;
 using init_api.Entities;
+using Microsoft.AspNetCore.Authorization;
 
 namespace init_api.Controllers
 {
     [ApiController]
     [Route("api/sec_categories/{sec_Id}/third_categories")]
+    [Authorize(Roles="User,Admin")]
     public class ThirdCategoryController : ControllerBase
     {
         private readonly ICategoryRepository _categoryRepository;

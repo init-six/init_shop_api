@@ -23,13 +23,6 @@ namespace init_api.Services
             }
             var category = await _context.Categories.FirstOrDefaultAsync(x => x.UUID == categoryId) ?? new Category();
             category.children = await _context.SecCategories.Where(x => x.ParentId == category.Id).ToListAsync();
-            if (category.children != null)
-            {
-                foreach (var children in category.children)
-                {
-                    children.Children = await _context.ThirdCategories.Where(x => x.ParentId == children.Id).ToListAsync();
-                }
-            }
             return category;
         }
 
