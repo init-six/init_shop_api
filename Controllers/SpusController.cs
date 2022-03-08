@@ -3,6 +3,7 @@ using AutoMapper;
 using init_api.Services;
 using init_api.Models;
 using init_api.Entities;
+using init_api.QueryParameters;
 
 namespace init_api.Controllers
 {
@@ -21,9 +22,9 @@ namespace init_api.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<SpuDto>>> GetSpus()
+        public async Task<ActionResult<IEnumerable<SpuDto>>> GetSpus([FromQuery] SpusParameters parameters)
         {
-            var spus = await _spuRepository.GetSpusAsync();
+            var spus = await _spuRepository.GetSpusAsync(parameters);
             var returnDtos = _mapper.Map<IEnumerable<SpuDto>>(spus);
             return Ok(returnDtos);
         }

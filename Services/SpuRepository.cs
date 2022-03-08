@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using init_api.Data;
 using init_api.Entities;
+using init_api.QueryParameters;
 
 namespace init_api.Services
 {
@@ -12,10 +13,23 @@ namespace init_api.Services
             _context = context ?? throw new ArgumentNullException(nameof(context));
         }
         //spu process
-        public async Task<IEnumerable<Spu>> GetSpusAsync()
+        public async Task<IEnumerable<Spu>> GetSpusAsync(SpusParameters parameters)
         {
+            if (!String.IsNullOrEmpty(parameters.SearchByName))
+            {
+                return await _context.Spu.Include(p => p.SpuDetail)
+                    .Where(x => x.Name.ToLower()
+                            .Contains(parameters.SearchByName)).ToListAsync();
+            }
+            if (!String.IsNullOrEmpty(parameters.SearchByDes))
+            {
+                return await _context.Spu.Include(p => p.SpuDetail)
+                    .Where(x => x.SpuDetail.Description.ToLower()
+                            .Contains(parameters.SearchByDes)).ToListAsync();
+            }
             return await _context.Spu.Include(p => p.SpuDetail).ToListAsync();
         }
+
         public async Task<Spu> GetSpuAsync(Guid spuUUID)
         {
             if (spuUUID == Guid.Empty)
