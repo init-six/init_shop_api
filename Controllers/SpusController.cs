@@ -20,6 +20,14 @@ namespace init_api.Controllers
             _categoryRepository = categoryRepository ?? throw new ArgumentNullException(nameof(categoryRepository));
         }
 
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<SpuDto>>> GetSpus()
+        {
+            var spus = await _spuRepository.GetSpusAsync();
+            var returnDtos = _mapper.Map<IEnumerable<SpuDto>>(spus);
+            return Ok(returnDtos);
+        }
+
         [HttpGet("{spuUUID}", Name = nameof(GetSpu))]
         public async Task<ActionResult<SpuDto>> GetSpu(Guid spuUUID)
         {

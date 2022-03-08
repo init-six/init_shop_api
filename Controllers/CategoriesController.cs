@@ -9,7 +9,7 @@ namespace init_api.Controllers
 {
     [ApiController]
     [Route("api/categories")]
-    [Authorize(Roles="User,Admin")]
+    [Authorize(Roles = "User,Admin")]
     public class CategoriesController : ControllerBase
     {
         private readonly ICategoryRepository _categoryRepository;

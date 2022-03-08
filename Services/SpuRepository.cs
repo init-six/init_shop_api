@@ -14,7 +14,7 @@ namespace init_api.Services
         //spu process
         public async Task<IEnumerable<Spu>> GetSpusAsync()
         {
-            return await _context.Spu.ToListAsync();
+            return await _context.Spu.Include(p => p.SpuDetail).ToListAsync();
         }
         public async Task<Spu> GetSpuAsync(Guid spuUUID)
         {
