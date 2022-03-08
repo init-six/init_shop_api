@@ -1,11 +1,12 @@
 using init_api.Entities;
+using init_api.QueryParameters;
 
 namespace init_api.Services
 {
     public interface ISpuRepository
     {
         //spu process
-        Task<IEnumerable<Spu>> GetSpusAsync(); //uses under category
+        Task<IEnumerable<Spu>> GetSpusAsync(SpusParameters parameters);
         Task<Spu> GetSpuAsync(Guid spuUUID);
         void AddSpu(Spu spu);
         void UpdateSpu(Spu spu);
