@@ -10,6 +10,7 @@ namespace init_api.Profiles
             CreateMap<Spu, SpuDto>();
             CreateMap<SpuAddDto, Spu>();
             CreateMap<SpuUpdateDto, Spu>();
+            CreateMap<SpuUpdateSaleAbleDto, Spu>();
         }
     }
 }

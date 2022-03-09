@@ -71,6 +71,24 @@ namespace init_api.Controllers
                     , returnDto);
         }
 
+        [HttpPut("{spuUUID}/saleable")]
+        public async Task<IActionResult> UpdateSpuSaleAble(Guid spuUUID, SpuUpdateSaleAbleDto spuUpdateDto)
+        {
+            if (!await _spuRepository.SpuExistAsync(spuUUID))
+            {
+                return NotFound();
+            }
+            var entity = await _spuRepository.GetSpuAsync(spuUUID);
+            if (entity == null)
+            {
+                return NotFound();
+            }
+            _mapper.Map(spuUpdateDto, entity);
+            _spuRepository.UpdateSpu(entity);
+            await _spuRepository.SaveAsync();
+            return NoContent();
+        }
+
         [HttpPut("{spuUUID}")]
         public async Task<IActionResult> UpdateSpu(Guid spuUUID, SpuUpdateDto spuUpdateDto)
         {
