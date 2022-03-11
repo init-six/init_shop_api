@@ -12,6 +12,7 @@ namespace init_api.Entities
         public Int64 fkSpuId { get; set; }
         public string Description { get; set; }
         [Column(TypeName = "varchar(1000)")]
+        [Comment("Own Spec Template")]
         public string SpecTemplate { get; set; }
         [Column(TypeName = "varchar(1000)")]
         public string ProductDetails { get; set; }
