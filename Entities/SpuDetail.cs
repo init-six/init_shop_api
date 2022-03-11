@@ -11,22 +11,24 @@ namespace init_api.Entities
         [Column(TypeName = "bigint")]
         public Int64 fkSpuId { get; set; }
         public string Description { get; set; }
-        [Column(TypeName = "varchar(3000)")]
-        public string Specifications { get; set; }
         [Column(TypeName = "varchar(1000)")]
         public string SpecTemplate { get; set; }
+        [Column(TypeName = "varchar(1000)")]
+        public string ProductDetails { get; set; }
+        [Column(TypeName = "varchar(1000)")]
+        public string FeatureAndBenefits { get; set; }
         [Column(TypeName = "varchar(1000)")]
         public string PackingList { get; set; }
         [Column(TypeName = "varchar(1000)")]
         public string? AfterService { get; set; }
-        //#TODO spu and spu detail is one to one and always linked
         public Spu Spu { get; set; }
         public SpuDetail()
         {
             this.Description = "";
-            this.Specifications = "";
             this.SpecTemplate = "";
             this.PackingList = "";
+            this.FeatureAndBenefits="";
+            this.ProductDetails="";
         }
     }
 }
