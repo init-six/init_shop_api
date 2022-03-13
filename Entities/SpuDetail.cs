@@ -28,8 +28,8 @@ namespace init_api.Entities
             this.Description = "";
             this.SpecTemplate = "";
             this.PackingList = "";
-            this.FeatureAndBenefits="";
-            this.ProductDetails="";
+            this.FeatureAndBenefits = "";
+            this.ProductDetails = "";
         }
     }
 }

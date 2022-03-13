@@ -1,7 +1,8 @@
 using System.ComponentModel.DataAnnotations;
-namespace init_api.Models
+using init_api.Entities;
+namespace init_api.JoinDto
 {
-    public class SpuDto
+    public class SpuJoinDto
     {
         public Guid UUID { get; set; }
         [Required]
@@ -16,7 +17,6 @@ namespace init_api.Models
         public byte Valid { get; set; }
         public DateTime CreateTime { get; set; }
         public DateTime LastUpdateTime { get; set; }
-        public ICollection<SkuDto> Skus { get; set; } = new List<SkuDto>();
-        public SpuDetailDto SpuDetail { get; set; } = new SpuDetailDto();
+        public SpuDetail SpuDetail { get; set; } = new SpuDetail();
     }
 }
