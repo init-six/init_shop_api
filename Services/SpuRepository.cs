@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using init_api.Data;
 using init_api.Entities;
 using init_api.QueryParameters;
+using init_api.JoinDto;
 
 namespace init_api.Services
 {
@@ -13,21 +14,48 @@ namespace init_api.Services
             _context = context ?? throw new ArgumentNullException(nameof(context));
         }
         //spu process
-        public async Task<IEnumerable<Spu>> GetSpusAsync(SpusParameters parameters)
+        public async Task<IEnumerable<SpuJoinDto>> GetSpusAsync(SpusParameters parameters)
         {
+            var list = (from spu in _context.Spu
+                        join category in _context.Categories
+                        on spu.Ct1 equals category.UUID into temp1
+                        from t1 in temp1.DefaultIfEmpty()
+                        join secCategory in _context.SecCategories
+                        on spu.Ct2 equals secCategory.UUID into temp2
+                        from t2 in temp2.DefaultIfEmpty()
+                        join thirdCategory in _context.ThirdCategories
+                        on spu.Ct3 equals thirdCategory.UUID into temp3
+                        from t3 in temp3.DefaultIfEmpty()
+                        join spudetail in _context.SpuDetail
+                        on spu.SpuDetail.Id equals spudetail.Id into temp4
+                        from t4 in temp4.DefaultIfEmpty()
+                        select new SpuJoinDto
+                        {
+                            UUID = spu.UUID,
+                            Name = spu.Name,
+                            Ct1 = t1 == null ? null : t1.UUID,
+                            Ct2 = t2 == null ? null : t2.UUID,
+                            Ct3 = t3 == null ? null : t3.UUID,
+                            Saleable = spu.Saleable,
+                            Valid = spu.Valid,
+                            CreateTime = spu.CreateTime,
+                            LastUpdateTime = spu.LastUpdateTime,
+                            SpuDetail = spu.SpuDetail,
+                            FirstCategory = t1.Name,
+                            SecCategory = t2.Name,
+                            ThirdCategory = t3.Name,
+                        });
             if (!String.IsNullOrEmpty(parameters.SearchByName))
             {
-                return await _context.Spu.Include(p => p.SpuDetail)
-                    .Where(x => x.Name.ToLower()
+                return await list.Where(x => x.Name.ToLower()
                             .Contains(parameters.SearchByName)).ToListAsync();
             }
             if (!String.IsNullOrEmpty(parameters.SearchByDes))
             {
-                return await _context.Spu.Include(p => p.SpuDetail)
-                    .Where(x => x.SpuDetail.Description.ToLower()
+                return await list.Where(x => x.SpuDetail.Description.ToLower()
                             .Contains(parameters.SearchByDes)).ToListAsync();
             }
-            return await _context.Spu.Include(p => p.SpuDetail).ToListAsync();
+            return await list.ToListAsync();
         }
 
         public async Task<Spu> GetSpuAsync(Guid spuUUID)
