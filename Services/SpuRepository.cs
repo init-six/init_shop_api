@@ -16,7 +16,7 @@ namespace init_api.Services
         //spu process
         public async Task<IEnumerable<SpuJoinDto>> GetSpusAsync(SpusParameters parameters)
         {
-            var list = (from spu in _context.Spu
+            var list = (from spu in _context.Spu.Include(p => p.Skus).Include(p => p.SpuDetail)
                         join category in _context.Categories
                         on spu.Ct1 equals category.UUID into temp1
                         from t1 in temp1.DefaultIfEmpty()
@@ -26,11 +26,9 @@ namespace init_api.Services
                         join thirdCategory in _context.ThirdCategories
                         on spu.Ct3 equals thirdCategory.UUID into temp3
                         from t3 in temp3.DefaultIfEmpty()
-                        join spudetail in _context.SpuDetail
-                        on spu.SpuDetail.Id equals spudetail.Id into temp4
-                        from t4 in temp4.DefaultIfEmpty()
                         select new SpuJoinDto
                         {
+                            Skus = spu.Skus,
                             UUID = spu.UUID,
                             Name = spu.Name,
                             Ct1 = t1 == null ? null : t1.UUID,
