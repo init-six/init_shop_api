@@ -37,6 +37,10 @@ namespace init_api.Controllers
         [HttpPost]
         public async Task<ActionResult<SkuDto>> CreateSku(Guid spuUUID, SkuAddDto sku)
         {
+            if (!await _spuRepository.SpuExistAsync(spuUUID))
+            {
+                return NotFound();
+            }
             var entity = _mapper.Map<Sku>(sku);
             _spuRepository.AddSku(spuUUID, entity);
             await _spuRepository.SaveAsync();
