@@ -13,7 +13,7 @@ namespace init_api.Entities
         public Int64? fkSpuId { get; set; }
         [Column(TypeName = "varchar(255)")]
         public string Name { get; set; } = string.Empty;
-        public string Image { get; set; } = string.Empty;
+        public string[]? Images { get; set; }
         [Comment("Money, value include cent")]
         public Int64 Price { get; set; }
         [Column(TypeName = "varchar(100)")]
