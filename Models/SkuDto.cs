@@ -5,7 +5,7 @@ namespace init_api.Models
     {
         public Guid UUID { get; set; }
         public string? Name { get; set; }
-        public string? Image { get; set; }
+        public string[]? Images { get; set; }
         public Int64 Price { get; set; }
         public string? Indexes { get; set; }
         public string? OwnSpec { get; set; }

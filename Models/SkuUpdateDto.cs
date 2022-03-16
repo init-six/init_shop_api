@@ -4,7 +4,7 @@ namespace init_api.Models
     public class SkuUpdateDto
     {
         public string? Name { get; set; }
-        public string Image { get; set; } = string.Empty;
+        public string[]? Images { get; set; }
         public Int64 Price { get; set; }
         public string Indexes { get; set; } = string.Empty;
         public string OwnSpec { get; set; } = string.Empty;
