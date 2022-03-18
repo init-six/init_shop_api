@@ -72,6 +72,10 @@ namespace init_api.Controllers
             {
                 return NotFound();
             }
+            if (await _categoryRepository.SecCategoryExistBindSpuAsync(sec_categoryId))
+            {
+                return BadRequest("this category bind with other spus, please delete first.");
+            }
             _categoryRepository.DeleteSecCategory(category);
             await _categoryRepository.SaveAsync();
             return NoContent();
