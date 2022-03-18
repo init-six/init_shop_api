@@ -72,6 +72,14 @@ namespace init_api.Services
             }
             _context.Categories.Remove(category);
         }
+        public async Task<bool> CategoryExistBindSpuAsync(Guid categoryId)
+        {
+            if (categoryId == Guid.Empty)
+            {
+                throw new ArgumentNullException(nameof(categoryId));
+            }
+            return await _context.Spu.AnyAsync(x => x.Ct1 == categoryId);
+        }
         public async Task<bool> CategoryExistsAsync(Guid categoryId)
         {
             if (categoryId == Guid.Empty)
@@ -128,6 +136,14 @@ namespace init_api.Services
             }
             _context.SecCategories.Remove(category);
         }
+        public async Task<bool> SecCategoryExistBindSpuAsync(Guid categoryId)
+        {
+            if (categoryId == Guid.Empty)
+            {
+                throw new ArgumentNullException(nameof(categoryId));
+            }
+            return await _context.Spu.AnyAsync(x => x.Ct2 == categoryId);
+        }
         public async Task<bool> SecCategoryExistsAsync(Guid parentId, Guid categoryId)
         {
             if (categoryId == Guid.Empty)
@@ -168,6 +184,14 @@ namespace init_api.Services
                 throw new ArgumentNullException(nameof(category));
             }
             _context.ThirdCategories.Remove(category);
+        }
+        public async Task<bool> ThirdCategoryExistBindSpuAsync(Guid categoryId)
+        {
+            if (categoryId == Guid.Empty)
+            {
+                throw new ArgumentNullException(nameof(categoryId));
+            }
+            return await _context.Spu.AnyAsync(x => x.Ct3 == categoryId);
         }
 
         public async Task<bool> ThirdCategoryExistsAsync(Guid secCategoryId, Guid categoryId)

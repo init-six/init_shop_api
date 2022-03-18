@@ -11,6 +11,7 @@ namespace init_api.Services
         void UpdateCategory(Category category);
         void DeleteCategory(Category category);
         Task<bool> CategoryExistsAsync(Guid categoryId);
+        Task<bool> CategoryExistBindSpuAsync(Guid categoryId);
 
         //sec category
         Task<SecCategory> GetSecCategoryAsync(Guid categoryId);
@@ -18,6 +19,7 @@ namespace init_api.Services
         void UpdateSecCategory(SecCategory category);
         void DeleteSecCategory(SecCategory category);
         Task<bool> SecCategoryExistsAsync(Guid parentId, Guid categoryId);
+        Task<bool> SecCategoryExistBindSpuAsync(Guid categoryId);
 
         //third category
         Task<ThirdCategory> GetThirdCategoryAsync(Guid categoryId);
@@ -26,5 +28,6 @@ namespace init_api.Services
         void DeleteThirdCategory(ThirdCategory category);
         Task<bool> ThirdCategoryExistsAsync(Guid secCategoryId, Guid categoryId);
         Task<bool> SaveAsync();
+        Task<bool> ThirdCategoryExistBindSpuAsync(Guid categoryId);
     }
 }
