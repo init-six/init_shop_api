@@ -5,6 +5,7 @@ namespace init_api.JoinDto
     public class SpuJoinDto
     {
         public Guid UUID { get; set; }
+        public Int64 Id { get; set; }
         [Required]
         public string? Name { get; set; }
         public Guid? Ct1 { get; set; }

@@ -28,6 +28,7 @@ namespace init_api.Services
                         from t3 in temp3.DefaultIfEmpty()
                         select new SpuJoinDto
                         {
+                            Id=spu.Id,
                             Skus = spu.Skus,
                             UUID = spu.UUID,
                             Name = spu.Name,
