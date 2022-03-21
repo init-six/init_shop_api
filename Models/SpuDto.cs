@@ -4,6 +4,7 @@ namespace init_api.Models
     public class SpuDto
     {
         public Guid UUID { get; set; }
+        public Int64 Id { get; set; }
         [Required]
         public string? Name { get; set; }
         public Guid? Ct1 { get; set; }

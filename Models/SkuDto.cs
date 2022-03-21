@@ -3,6 +3,7 @@ namespace init_api.Models
 {
     public class SkuDto
     {
+        public Int64 Id { get; set; }
         public Guid UUID { get; set; }
         public string? Name { get; set; }
         public string[]? Images { get; set; }
