@@ -32,6 +32,7 @@ namespace init_api.Services
                             Skus = spu.Skus,
                             UUID = spu.UUID,
                             Name = spu.Name,
+                            Discount = spu.Discount,
                             Ct1 = t1 == null ? null : t1.UUID,
                             Ct2 = t2 == null ? null : t2.UUID,
                             Ct3 = t3 == null ? null : t3.UUID,

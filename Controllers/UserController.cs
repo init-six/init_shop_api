@@ -29,7 +29,8 @@ namespace init_api.Controllers
         [HttpPost("register")]
         public async Task<ActionResult<UserDTO>> Register(UserAddDto request)
         {
-            if (string.IsNullOrEmpty(request.Email)||string.IsNullOrEmpty(request.Password)){
+            if (string.IsNullOrEmpty(request.Email) || string.IsNullOrEmpty(request.Password))
+            {
                 return BadRequest();
             }
             if (await _userRepository.UserExistAsync(request.Email))
@@ -52,7 +53,8 @@ namespace init_api.Controllers
         [HttpPost("login")]
         public async Task<ActionResult<UserDTO>> Login(UserLoginDto request)
         {
-            if (string.IsNullOrEmpty(request.Email)){
+            if (string.IsNullOrEmpty(request.Email))
+            {
                 return BadRequest();
             }
             if (!await _userRepository.UserExistAsync(request.Email))
@@ -67,7 +69,8 @@ namespace init_api.Controllers
                 return NotFound("User not found.");
             }
 
-            if (string.IsNullOrEmpty(request.Password)){
+            if (string.IsNullOrEmpty(request.Password))
+            {
                 return BadRequest("please input password");
             }
 

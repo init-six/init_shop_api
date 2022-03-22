@@ -19,6 +19,7 @@ namespace init_api.JoinDto
         public DateTime CreateTime { get; set; }
         public DateTime LastUpdateTime { get; set; }
         public SpuDetail SpuDetail { get; set; } = new SpuDetail();
+        public Int64 Discount { get; set; }
         public ICollection<Sku> Skus { get; set; } = new List<Sku>();
     }
 }

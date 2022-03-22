@@ -18,6 +18,8 @@ namespace init_api.Models
         public DateTime LastUpdateTime { get; set; }
         public ICollection<SkuAddDto> Skus { get; set; } = new List<SkuAddDto>();
         public SpuDetailAddDto SpuDetail { get; set; } = new SpuDetailAddDto();
+        [Range(0, 100)]
+        public Int64 Discount { get; set; }
         public SpuAddDto()
         {
             this.Name = "undefined";
@@ -25,6 +27,7 @@ namespace init_api.Models
             this.Valid = 1;
             this.CreateTime = DateTime.UtcNow;
             this.LastUpdateTime = DateTime.UtcNow;
+            this.Discount = 100;
         }
     }
 }

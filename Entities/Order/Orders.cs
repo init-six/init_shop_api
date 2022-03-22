@@ -38,7 +38,7 @@ namespace init_api.Entities.Order
         public String? context { get; set; }
         [Comment("buyer")]
         public User user { get; set; } = new User();
-        public ICollection<OrderItem> items {get;set;}=new List<OrderItem>();
+        public ICollection<OrderItem> items { get; set; } = new List<OrderItem>();
         //TODO miss supplier table 
         //TODO afterstatus should apply to each OrderItem
         public Orders()
