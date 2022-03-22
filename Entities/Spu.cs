@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations.Schema;
+using init_api.Entities.Order;
 
 namespace init_api.Entities
 {
@@ -26,6 +27,7 @@ namespace init_api.Entities
         public DateTime LastUpdateTime { get; set; }
         public ICollection<Sku> Skus { get; set; } = new List<Sku>();
         public SpuDetail SpuDetail { get; set; } = new SpuDetail();
+        public ICollection<OrderItem> orderitems{ get; set; } = new List<OrderItem>();
         public Spu()
         {
             this.Name = "undefined";

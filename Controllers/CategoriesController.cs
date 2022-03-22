@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using init_api.Services;
 using AutoMapper;
 using init_api.Models;
-using init_api.Entities;
+using init_api.Entities.Category;
 
 namespace init_api.Controllers
 {

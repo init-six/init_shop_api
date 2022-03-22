@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using init_api.Entities;
+using init_api.Entities.Order;
 using init_api.Data;
 
 namespace init_api.Controllers
@@ -18,14 +18,14 @@ namespace init_api.Controllers
 
         // GET: api/Order
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Order>>> GetOrders()
+        public async Task<ActionResult<IEnumerable<Orders>>> GetOrders()
         {
             return await _context.Orders.ToListAsync();
         }
 
         // GET: api/Order/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Order>> GetOrder(long id)
+        public async Task<ActionResult<Orders>> GetOrder(long id)
         {
             var order = await _context.Orders.FindAsync(id);
 
@@ -40,7 +40,7 @@ namespace init_api.Controllers
         // PUT: api/Order/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutOrder(long id, Order order)
+        public async Task<IActionResult> PutOrder(long id, Orders order)
         {
             if (id != order.Id)
             {
@@ -71,7 +71,7 @@ namespace init_api.Controllers
         // POST: api/Order
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Order>> PostOrder(Order order)
+        public async Task<ActionResult<Orders>> PostOrder(Orders order)
         {
             _context.Orders.Add(order);
             await _context.SaveChangesAsync();

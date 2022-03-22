@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using init_api.Data;
-using init_api.Entities;
+using init_api.Entities.Category;
 namespace init_api.Services
 {
     public class CategoryRepository : ICategoryRepository
