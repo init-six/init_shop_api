@@ -1,6 +1,6 @@
 using AutoMapper;
 using init_api.Entities.Category;
-using init_api.Models;
+using init_api.Models.Category;
 namespace init_api.Profiles
 {
     public class CategoryProfile : Profile

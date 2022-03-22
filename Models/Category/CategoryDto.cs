@@ -1,4 +1,4 @@
-namespace init_api.Models
+namespace init_api.Models.Category
 {
     public class CategoryDto
     {
