@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using init_api.Entities;
 using init_api.Entities.Category;
 using init_api.Entities.Order;
+using init_api.Entities.Transactions;
 
 namespace init_api.Data
 {
@@ -21,7 +22,9 @@ namespace init_api.Data
         public DbSet<SpuDetail> SpuDetail { get; set; } = null!;
         public DbSet<SecCategory> SecCategories { get; set; } = null!;
         public DbSet<ThirdCategory> ThirdCategories { get; set; } = null!;
-        public DbSet<Address> address { get; set; } = null!;
+        public DbSet<Address> Address { get; set; } = null!;
+        public DbSet<Transaction> Transaction { get; set; } = null!;
+        public DbSet<TransactionRecord> TransacationRecord { get; set; } = null!;
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<User>().ToTable("user");
@@ -89,6 +92,21 @@ namespace init_api.Data
                 .HasOne(o => o.address)
                 .WithOne(a => a.parent)
                 .HasForeignKey<Address>(a => a.fkOrderId).OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Orders>()
+                .HasOne(o => o.transaction)
+                .WithOne(t => t.orders)
+                .HasForeignKey<Transaction>(t => t.fkOrderId).OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Orders>()
+                .HasOne(o => o.transactionRecord)
+                .WithOne(r => r.orders)
+                .HasForeignKey<TransactionRecord>(r => r.fkOrderId).OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<User>()
+                .HasOne(u => u.transaction)
+                .WithOne(t => t.user)
+                .HasForeignKey<Transaction>(t => t.fkUserId).OnDelete(DeleteBehavior.Cascade);
         }
     }
 }
