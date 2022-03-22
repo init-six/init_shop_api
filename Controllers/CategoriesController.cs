@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using init_api.Services;
 using AutoMapper;
-using init_api.Models;
+using init_api.Models.Category;
 using init_api.Entities.Category;
 
 namespace init_api.Controllers
