@@ -41,6 +41,7 @@ namespace init_api.Entities.Order
         public ICollection<OrderItem> items { get; set; } = new List<OrderItem>();
         //TODO miss supplier table 
         //TODO afterstatus should apply to each OrderItem
+        public Address address { get; set; } = new Address();
         public Orders()
         {
             this.orderSettlementStatus = 0;

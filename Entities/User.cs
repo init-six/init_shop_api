@@ -13,7 +13,7 @@ namespace init_api.Entities
         public byte[]? PasswordHash { get; set; }
         public byte[]? PasswordSalt { get; set; }
         public string? Role { get; set; }
-        public long? mobile { get; set; }
+        public string? Mobile { get; set; }
         public ICollection<Orders> orders { get; set; } = new List<Orders>();
         public User()
         {

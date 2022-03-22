@@ -5,6 +5,6 @@ namespace init_api.Models
     {
         [Required]
         public string? UserName { get; set; }
-        public long? TelNumber { get; set; }
+        public string? Mobile { get; set; }
     }
 }

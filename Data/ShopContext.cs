@@ -21,6 +21,7 @@ namespace init_api.Data
         public DbSet<SpuDetail> SpuDetail { get; set; } = null!;
         public DbSet<SecCategory> SecCategories { get; set; } = null!;
         public DbSet<ThirdCategory> ThirdCategories { get; set; } = null!;
+        public DbSet<Address> address { get; set; } = null!;
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<User>().ToTable("user");
@@ -33,6 +34,7 @@ namespace init_api.Data
             modelBuilder.Entity<SecCategory>().ToTable("sec_category");
             modelBuilder.Entity<ThirdCategory>().ToTable("third_category");
             modelBuilder.Entity<OrderItem>().ToTable("order_item");
+            modelBuilder.Entity<Address>().ToTable("address");
 
             modelBuilder.Entity<Sku>()
                 .HasOne(p => p.Spu)
@@ -82,6 +84,11 @@ namespace init_api.Data
                 .WithMany(u => u.orders)
                 .IsRequired()
                 .HasForeignKey(o => o.UserId).OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Orders>()
+                .HasOne(o => o.address)
+                .WithOne(a => a.parent)
+                .HasForeignKey<Address>(a => a.fkOrderId).OnDelete(DeleteBehavior.Cascade);
         }
     }
 }
