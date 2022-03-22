@@ -14,7 +14,7 @@ namespace init_api.Entities
         public byte[]? PasswordSalt { get; set; }
         public string? Role { get; set; }
         public long? mobile { get; set; }
-        public ICollection<Orders> orders{ get; set; } = new List<Orders>();
+        public ICollection<Orders> orders { get; set; } = new List<Orders>();
         public User()
         {
             this.Role = "User";

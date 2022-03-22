@@ -27,7 +27,8 @@ namespace init_api.Entities
         public DateTime LastUpdateTime { get; set; }
         public ICollection<Sku> Skus { get; set; } = new List<Sku>();
         public SpuDetail SpuDetail { get; set; } = new SpuDetail();
-        public ICollection<OrderItem> orderitems{ get; set; } = new List<OrderItem>();
+        public ICollection<OrderItem> orderitems { get; set; } = new List<OrderItem>();
+        public Int64 Discount { get; set; }
         public Spu()
         {
             this.Name = "undefined";
@@ -35,6 +36,7 @@ namespace init_api.Entities
             this.Valid = 1;
             this.CreateTime = DateTime.UtcNow;
             this.LastUpdateTime = DateTime.UtcNow;
+            this.Discount = 100;
         }
     }
 }

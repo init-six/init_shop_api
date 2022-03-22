@@ -19,5 +19,6 @@ namespace init_api.Models
         public DateTime LastUpdateTime { get; set; }
         public ICollection<SkuDto> Skus { get; set; } = new List<SkuDto>();
         public SpuDetailDto SpuDetail { get; set; } = new SpuDetailDto();
+        public Int64 Discount { get; set; }
     }
 }
