@@ -1,4 +1,4 @@
-using init_api.Entities;
+using init_api.Entities.Category;
 
 namespace init_api.Services
 {

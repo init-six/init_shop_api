@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using AutoMapper;
 using init_api.Services;
 using init_api.Models;
-using init_api.Entities;
+using init_api.Entities.Category;
 using init_api.Helpers;
 namespace init_api.Controllers
 {
