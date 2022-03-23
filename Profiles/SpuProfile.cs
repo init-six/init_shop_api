@@ -1,5 +1,5 @@
 using AutoMapper;
-using init_api.Entities;
+using init_api.Entities.Product;
 using init_api.Models;
 using init_api.JoinDto;
 namespace init_api.Profiles

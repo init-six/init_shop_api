@@ -2,7 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations.Schema;
 using init_api.Entities.Order;
 
-namespace init_api.Entities
+namespace init_api.Entities.Product
 {
     [Comment("Spu Table: Standard Product Unit")]
     public class Spu

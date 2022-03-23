@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations.Schema;
+using init_api.Entities.Product;
 namespace init_api.Entities.Order
 {
     public class OrderItem
