@@ -1,4 +1,5 @@
 ﻿using init_api.Entities.Order;
+using init_api.Entities.Carts;
 using System.ComponentModel.DataAnnotations.Schema;
 using init_api.Entities.Transactions;
 using System.ComponentModel.DataAnnotations;
@@ -23,6 +24,7 @@ namespace init_api.Entities
         public string? Mobile { get; set; }
         public ICollection<Orders> orders { get; set; } = new List<Orders>();
         public Transaction transaction { get; set; } = new Transaction();
+        public ICollection<Cart> carts { get; set; } = new List<Cart>();
         public User()
         {
             this.Role = "User";
