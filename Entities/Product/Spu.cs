@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations.Schema;
 using init_api.Entities.Order;
+using init_api.Entities.Carts;
 
 namespace init_api.Entities.Product
 {
@@ -28,6 +29,7 @@ namespace init_api.Entities.Product
         public ICollection<Sku> Skus { get; set; } = new List<Sku>();
         public SpuDetail SpuDetail { get; set; } = new SpuDetail();
         public ICollection<OrderItem> orderitems { get; set; } = new List<OrderItem>();
+        public ICollection<CartItem> cartitems { get; set; } = new List<CartItem>();
         public Int64 Discount { get; set; }
         public Spu()
         {

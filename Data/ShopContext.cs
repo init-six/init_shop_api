@@ -4,6 +4,7 @@ using init_api.Entities.Category;
 using init_api.Entities.Order;
 using init_api.Entities.Transactions;
 using init_api.Entities.Product;
+using init_api.Entities.Carts;
 
 namespace init_api.Data
 {
@@ -26,6 +27,8 @@ namespace init_api.Data
         public DbSet<Address> Address { get; set; } = null!;
         public DbSet<Transaction> Transaction { get; set; } = null!;
         public DbSet<TransactionRecord> TransacationRecord { get; set; } = null!;
+        public DbSet<Cart> Cart { get; set; } = null!;
+        public DbSet<CartItem> CartItem { get; set; } = null!;
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<User>().ToTable("user");
@@ -39,6 +42,8 @@ namespace init_api.Data
             modelBuilder.Entity<ThirdCategory>().ToTable("third_category");
             modelBuilder.Entity<OrderItem>().ToTable("order_item");
             modelBuilder.Entity<Address>().ToTable("address");
+            modelBuilder.Entity<Cart>().ToTable("cart");
+            modelBuilder.Entity<CartItem>().ToTable("cart_item");
 
             modelBuilder.Entity<Sku>()
                 .HasOne(p => p.Spu)
@@ -91,7 +96,7 @@ namespace init_api.Data
 
             modelBuilder.Entity<Orders>()
                 .HasOne(o => o.address)
-                .WithOne(a => a.parent)
+                .WithOne(a => a.order)
                 .HasForeignKey<Address>(a => a.fkOrderId).OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<Orders>()
@@ -108,6 +113,35 @@ namespace init_api.Data
                 .HasOne(u => u.transaction)
                 .WithOne(t => t.user)
                 .HasForeignKey<Transaction>(t => t.fkUserId).OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Cart>()
+                .HasOne(c => c.user)
+                .WithMany(u => u.carts)
+                .IsRequired()
+                .HasForeignKey(c => c.UserId).OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Cart>()
+                .HasOne(c => c.address)
+                .WithOne(a => a.cart)
+                .HasForeignKey<Address>(a => a.fkCartId).OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<CartItem>()
+                .HasOne(i => i.parent)
+                .WithMany(o => o.cartItems)
+                .IsRequired()
+                .HasForeignKey(x => x.fkCartId).OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<CartItem>()
+                .HasOne(c => c.sku)
+                .WithMany(k => k.cartitems)
+                .IsRequired()
+                .HasForeignKey(c => c.fkSkuId).OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<CartItem>()
+                .HasOne(c => c.spu)
+                .WithMany(s => s.cartitems)
+                .IsRequired()
+                .HasForeignKey(c => c.fkSpuId).OnDelete(DeleteBehavior.Cascade);
         }
     }
 }
