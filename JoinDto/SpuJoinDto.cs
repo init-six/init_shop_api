@@ -1,5 +1,5 @@
 using System.ComponentModel.DataAnnotations;
-using init_api.Entities;
+using init_api.Entities.Product;
 namespace init_api.JoinDto
 {
     public class SpuJoinDto

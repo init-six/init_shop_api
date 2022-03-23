@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace init_api.Entities
+namespace init_api.Entities.Product
 {
     [Comment("Stock: describe total stock for each sku table")]
     public class Stock

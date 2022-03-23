@@ -3,6 +3,7 @@ using init_api.Entities;
 using init_api.Entities.Category;
 using init_api.Entities.Order;
 using init_api.Entities.Transactions;
+using init_api.Entities.Product;
 
 namespace init_api.Data
 {

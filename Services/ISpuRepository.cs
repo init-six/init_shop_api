@@ -1,6 +1,6 @@
-using init_api.Entities;
 using init_api.QueryParameters;
 using init_api.JoinDto;
+using init_api.Entities.Product;
 
 namespace init_api.Services
 {
