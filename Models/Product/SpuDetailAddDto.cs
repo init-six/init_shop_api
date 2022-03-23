@@ -1,6 +1,6 @@
-namespace init_api.Models
+namespace init_api.Models.Product
 {
-    public class SpuDetailDto
+    public class SpuDetailAddDto
     {
         public string? Description { get; set; }
         public string? SpecTemplate { get; set; }
@@ -8,7 +8,7 @@ namespace init_api.Models
         public string? AfterService { get; set; }
         public string? ProductDetails { get; set; }
         public string? FeatureAndBenefits { get; set; }
-        public SpuDetailDto()
+        public SpuDetailAddDto()
         {
             this.Description = "";
             this.SpecTemplate = "";
@@ -16,7 +16,6 @@ namespace init_api.Models
             this.AfterService = "";
             this.ProductDetails = "";
             this.FeatureAndBenefits = "";
-
         }
     }
 }

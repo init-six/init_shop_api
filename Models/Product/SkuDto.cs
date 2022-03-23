@@ -1,5 +1,5 @@
 using System.ComponentModel.DataAnnotations;
-namespace init_api.Models
+namespace init_api.Models.Product
 {
     public class SkuDto
     {

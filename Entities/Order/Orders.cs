@@ -15,8 +15,12 @@ namespace init_api.Entities.Order
         public byte OrderStatus { get; set; }
         [Comment("after status. 0:no feedback 1: apply after service -1:cancel after service 2: process 200:done")]
         public byte AfterStatus { get; set; }
+        [Comment("Discount")]
+        public byte Discount { get; set; }
+        [Comment("sub total")]
+        public Int64 SubTotal { get; set; }
         [Comment("product total")]
-        public Int64 ProductTotal { get; set; }
+        public Int64 Total { get; set; }
         [Comment("actual paid total")]
         public Int64 OrderAmountTotal { get; set; }
         [Comment("logistics Fee")]

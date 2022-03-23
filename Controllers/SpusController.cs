@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using AutoMapper;
 using init_api.Services;
-using init_api.Models;
+using init_api.Models.Product;
 using init_api.Entities.Product;
 using init_api.QueryParameters;
 
